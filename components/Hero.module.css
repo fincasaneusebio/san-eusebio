@@ -1,0 +1,108 @@
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: 6rem var(--borde-x) 5rem;
+  overflow: hidden;
+  color: var(--lino);
+  background-color: var(--verde);
+}
+
+.fondo {
+  position: absolute;
+  inset: 0;
+}
+
+.poster,
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+}
+
+/* Mientras no haya foto ni video cargados: un degradado en los verdes
+   y tabacos de la paleta, para que nunca se vea un hueco negro. */
+.posterVacio {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(120% 90% at 30% 20%, rgba(217, 154, 43, 0.28), transparent 55%),
+    linear-gradient(160deg, var(--verde) 0%, var(--tabaco) 100%);
+}
+
+/* Velo para que el texto sea legible sobre cualquier imagen.
+   Más denso abajo, donde apoya el wordmark. */
+.velo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(36, 31, 24, 0.42) 0%,
+    rgba(36, 31, 24, 0.22) 40%,
+    rgba(36, 31, 24, 0.55) 100%
+  );
+}
+
+.contenido {
+  position: relative;
+  text-align: center;
+  max-width: 34rem;
+}
+
+.logo {
+  width: clamp(14rem, 42vw, 24rem);
+  font-size: clamp(1.6rem, 5.5vw, 3rem);
+}
+
+.lema {
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.15rem, 3vw, 1.6rem);
+  line-height: 1.4;
+}
+
+.lugar {
+  margin-top: 1rem;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+/* Indicación de scroll: una línea que respira, no una flecha rebotando. */
+.bajar {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem;
+}
+
+.linea {
+  display: block;
+  width: 1px;
+  height: 3.5rem;
+  background: linear-gradient(to bottom, transparent, var(--ambar));
+  animation: respirar 3.2s var(--ease) infinite;
+  transform-origin: top;
+}
+
+@keyframes respirar {
+  0%, 100% { transform: scaleY(0.55); opacity: 0.5; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linea {
+    animation: none;
+  }
+}

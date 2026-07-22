@@ -1,0 +1,38 @@
+.grilla {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+  align-items: center;
+}
+
+@media (min-width: 58rem) {
+  .grilla {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+}
+
+.imagen {
+  margin: 0;
+}
+
+.imagen img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.sinFoto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background:
+    radial-gradient(90% 70% at 70% 20%, rgba(217, 154, 43, 0.2), transparent 60%),
+    linear-gradient(150deg, rgba(var(--verde-rgb), 0.55), rgba(var(--tabaco-rgb), 0.4));
+}
+
+.pie {
+  margin-top: 0.85rem;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--tabaco);
+}
