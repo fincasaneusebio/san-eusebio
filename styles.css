@@ -209,9 +209,22 @@ p {
     transform 1s var(--ease);
 }
 
+/* Mientras está invisible no debe capturar clics de lo que tiene debajo. */
+.reveal:not(.visible) {
+  pointer-events: none;
+}
+
 .reveal.visible {
   opacity: 1;
   transform: none;
+  pointer-events: auto;
+}
+
+/* Red de seguridad: si por algún motivo el JavaScript de aparición no corre,
+   el panel de consulta debe ser visible e interactivo igual. */
+.con-panel,
+.con-panel * {
+  pointer-events: auto;
 }
 
 .reveal[data-delay='1'] { transition-delay: 0.12s; }
@@ -848,6 +861,8 @@ a.exp-enlace:hover {
 }
 
 .con-dia {
+  position: relative;
+  z-index: 1;
   aspect-ratio: 1;
   display: grid;
   place-items: center;

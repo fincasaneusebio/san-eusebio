@@ -205,7 +205,7 @@
         <p class="subtitulo texto">Elegí los días y contanos quién sos. La consulta sigue por WhatsApp, con una persona del otro lado — no hay pago automático ni reserva instantánea.</p>
       </header>
 
-      <div class="con-panel reveal">
+      <div class="con-panel">
         <div class="con-calendario">
           <div class="con-controlMes">
             <button type="button" id="mesAnterior" aria-label="Mes anterior">←</button>
@@ -330,20 +330,8 @@
   </svg>
 </a>
 
-<script>
-(function(){
-  var c = window.SAN_EUSEBIO || {};
-  function set(id, href, text){ var el=document.getElementById(id); if(el){ if(href) el.href=href; if(text) el.textContent=text; } }
-  document.addEventListener('DOMContentLoaded', function(){
-    if(c.whatsapp) set('ftWa','https://wa.me/'+c.whatsapp,'WhatsApp');
-    if(c.email) set('ftMail','mailto:'+c.email, c.email);
-    if(c.instagram) set('ftIg','https://instagram.com/'+c.instagram,'@'+c.instagram);
-  });
-})();
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
-<script src="script.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="script.js"></script>
 </body>
 </html>
