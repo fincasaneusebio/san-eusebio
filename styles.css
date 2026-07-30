@@ -434,11 +434,19 @@ p {
   color: var(--lino);
 
   opacity: 0;
-  transition: opacity 0.45s var(--ease);
+  /* Cerrado: totalmente inerte. No captura clics ni tapa el contenido.
+     Sin esto, el menú invisible se estira sobre la página y roba los clics
+     del calendario y de todo lo demás. */
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s var(--ease), visibility 0.45s;
 }
 
 .hd-abierto {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 45;
 }
 
 .hd-menuMovil nav {
