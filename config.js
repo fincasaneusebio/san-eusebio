@@ -19,7 +19,7 @@ window.SAN_EUSEBIO = {
 
   // --- Contacto (CAMBIAR por los datos reales antes de publicar) ---
   whatsapp: '5492494622264', // solo números, con código de país (54 9 ...)
-  email: 'hola@saneusebio.com.ar',
+  email: 'fincasaneusebio@gmail.com',
   instagram: 'saneusebio.hosteria',
 
   ubicacion: 'De la Canal, Tandil — Provincia de Buenos Aires',
