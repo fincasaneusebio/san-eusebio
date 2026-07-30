@@ -18,7 +18,7 @@ window.SAN_EUSEBIO = {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwYmVzeGVpYXNqa3pzdnhscWVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MDU1ODEsImV4cCI6MjEwMDI4MTU4MX0.7EIUs4i-Yq1gp4FspttptOVLELExFuBuHZg6bwlVLNk',
 
   // --- Contacto (CAMBIAR por los datos reales antes de publicar) ---
-  whatsapp: '5492494000000', // solo números, con código de país (54 9 ...)
+  whatsapp: '5492494622264', // solo números, con código de país (54 9 ...)
   email: 'hola@saneusebio.com.ar',
   instagram: 'saneusebio.hosteria',
 
