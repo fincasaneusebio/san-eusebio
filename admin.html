@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Administración · San Eusebio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500&family=Lora:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --colorado: #a23e2f;
+    --verde: #6a644e;
+    --ambar: #d99a2b;
+    --lino: #f4edde;
+    --tabaco: #6a4a30;
+    --tinta: #241f18;
+    --colorado-rgb: 162, 62, 47;
+    --tabaco-rgb: 106, 74, 48;
+    --tinta-rgb: 36, 31, 24;
+    --lino-rgb: 244, 237, 222;
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Lora', Georgia, serif;
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--lino);
+    color: var(--tinta);
+    font-family: var(--body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.15; }
+  a { color: var(--colorado); }
+  button { font: inherit; cursor: pointer; border: 0; background: none; }
+  :focus-visible { outline: 2px solid var(--ambar); outline-offset: 2px; }
+
+  .eyebrow {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--tabaco);
+  }
+
+  /* ------------------------------------------------------------- login --- */
+  .login {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+  }
+  .login__caja {
+    width: 100%;
+    max-width: 24rem;
+    background: #fff;
+    border: 1px solid rgba(var(--tabaco-rgb), 0.2);
+    padding: clamp(1.75rem, 5vw, 2.75rem);
+  }
+  .login__caja h1 { font-size: 1.9rem; color: var(--colorado); margin-bottom: 0.3rem; }
+  .login__caja p.sub { color: var(--tabaco); font-size: 0.95rem; margin-bottom: 1.75rem; }
+
+  .campo { display: grid; gap: 0.4rem; margin-bottom: 1.1rem; }
+  .campo > span {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--tabaco);
+  }
+  .campo input, .campo textarea {
+    font-family: var(--body); font-size: 1rem; color: var(--tinta);
+    background: transparent; border: 0;
+    border-bottom: 1px solid rgba(var(--tabaco-rgb), 0.35);
+    padding: 0.55rem 0; border-radius: 0;
+  }
+  .campo input:focus, .campo textarea:focus {
+    outline: none; border-bottom-color: var(--ambar); border-bottom-width: 1.5px;
+  }
+  .campo textarea { resize: vertical; line-height: 1.6; }
+
+  .boton {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 0.5em; padding: 0.85em 1.7em;
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; text-decoration: none;
+    background: var(--colorado); color: var(--lino);
+    border: 1px solid var(--colorado);
+    transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .boton:hover:not(:disabled) { background: transparent; color: var(--colorado); }
+  .boton:disabled { opacity: 0.45; cursor: not-allowed; }
+  .boton--bloque { width: 100%; }
+  .boton--fantasma {
+    background: transparent; color: var(--tabaco); border-color: rgba(var(--tabaco-rgb), 0.4);
+  }
+  .boton--fantasma:hover:not(:disabled) { background: var(--tabaco); color: var(--lino); }
+
+  .aviso { font-size: 0.9rem; margin-top: 1rem; }
+  .aviso--error { color: var(--colorado); }
+  .aviso--ok { color: var(--verde); }
+
+  /* -------------------------------------------------------------- panel --- */
+  .panel { display: none; }
+  .panel.activo { display: block; }
+
+  .barra {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap;
+    padding: 1rem clamp(1.25rem, 4vw, 2.5rem);
+    background: var(--verde); color: var(--lino);
+  }
+  .barra__marca { font-family: var(--display); letter-spacing: 0.2em; text-transform: uppercase; font-size: 1rem; }
+  .barra__marca span { color: rgba(var(--lino-rgb), 0.6); font-size: 0.7rem; display: block; letter-spacing: 0.18em; }
+  .barra .boton { padding: 0.55em 1.2em; }
+
+  .contenido { max-width: 60rem; margin-inline: auto; padding: clamp(1.5rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2.5rem); }
+
+  .tabs { display: flex; gap: 0.5rem; border-bottom: 1px solid rgba(var(--tabaco-rgb), 0.25); margin-bottom: 2rem; flex-wrap: wrap; }
+  .tab {
+    padding: 0.7rem 1.1rem; font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--tabaco);
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab.activo { color: var(--colorado); border-bottom-color: var(--colorado); }
+
+  .seccion-admin { display: none; }
+  .seccion-admin.activa { display: block; }
+  .seccion-admin h2 { font-size: 1.6rem; margin-bottom: 0.4rem; }
+  .seccion-admin > p.intro { color: var(--tabaco); margin-bottom: 1.75rem; max-width: 52ch; }
+
+  /* calendario admin */
+  .cal { max-width: 30rem; border: 1px solid rgba(var(--tabaco-rgb), 0.28); padding: 1.25rem; }
+  .cal__control { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .cal__control p { font-family: var(--display); font-size: 1.15rem; text-transform: capitalize; }
+  .cal__control button { width: 2.25rem; height: 2.25rem; border: 1px solid rgba(var(--tabaco-rgb), 0.3); color: var(--tabaco); }
+  .cal__control button:hover:not(:disabled) { background: var(--tabaco); color: var(--lino); }
+  .cal__control button:disabled { opacity: 0.3; cursor: not-allowed; }
+  .cal__semana, .cal__dias { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .cal__semana span { text-align: center; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tabaco); margin-bottom: 0.4rem; }
+  .cal__dia {
+    aspect-ratio: 1; display: grid; place-items: center; font-size: 0.9rem;
+    color: var(--tinta); border: 1px solid transparent;
+    transition: background-color 0.2s var(--ease);
+  }
+  .cal__dia:hover:not(:disabled) { background: rgba(var(--tabaco-rgb), 0.12); }
+  .cal__dia:disabled { color: rgba(var(--tinta-rgb), 0.25); cursor: not-allowed; }
+  .cal__dia.ocupado {
+    background: var(--colorado); color: var(--lino); font-weight: 500;
+  }
+  .cal__nota { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; font-size: 0.82rem; color: var(--tabaco); }
+  .cal__muestra { width: 1rem; height: 1rem; background: var(--colorado); display: inline-block; }
+
+  .guardando { font-size: 0.82rem; color: var(--tabaco); min-height: 1.4em; margin-top: 0.75rem; }
+
+  .campos-hero { max-width: 34rem; display: grid; gap: 0.5rem; }
+  .ayuda { font-size: 0.82rem; color: var(--tabaco); margin-top: -0.5rem; margin-bottom: 0.5rem; }
+
+  .cargando { padding: 3rem; text-align: center; color: var(--tabaco); }
+</style>
+</head>
+<body>
+
+<!-- ================================================================ LOGIN -->
+<div class="login" id="pantallaLogin">
+  <div class="login__caja">
+    <p class="eyebrow">San Eusebio</p>
+    <h1>Administración</h1>
+    <p class="sub">Ingresá para gestionar la disponibilidad y la portada del sitio.</p>
+
+    <form id="formLogin">
+      <label class="campo">
+        <span>Email</span>
+        <input type="email" id="email" autocomplete="username" required>
+      </label>
+      <label class="campo">
+        <span>Contraseña</span>
+        <input type="password" id="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="boton boton--bloque" id="btnLogin">Ingresar</button>
+      <p class="aviso aviso--error" id="loginError" hidden></p>
+    </form>
+  </div>
+</div>
+
+<!-- ================================================================ PANEL -->
+<div class="panel" id="pantallaPanel">
+  <div class="barra">
+    <div class="barra__marca">
+      San Eusebio
+      <span>Panel de administración</span>
+    </div>
+    <button class="boton boton--fantasma" id="btnSalir">Salir</button>
+  </div>
+
+  <div class="contenido">
+    <div class="tabs">
+      <button class="tab activo" data-seccion="disponibilidad">Disponibilidad</button>
+      <button class="tab" data-seccion="portada">Portada</button>
+    </div>
+
+    <!-- ------------------------------------------------- DISPONIBILIDAD -->
+    <section class="seccion-admin activa" id="secDisponibilidad">
+      <h2>Disponibilidad</h2>
+      <p class="intro">
+        Tocá un día para marcarlo como <strong>ocupado</strong> (queda en rojo).
+        Tocalo de nuevo para volver a liberarlo. Los días en rojo aparecen como
+        “sin disponibilidad” en el sitio. Los cambios se guardan solos.
+      </p>
+
+      <div class="cal">
+        <div class="cal__control">
+          <button type="button" id="mesAnt" aria-label="Mes anterior">←</button>
+          <p id="etiquetaMes" aria-live="polite"></p>
+          <button type="button" id="mesSig" aria-label="Mes siguiente">→</button>
+        </div>
+        <div class="cal__semana" aria-hidden="true">
+          <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+        </div>
+        <div class="cal__dias" id="calDias"></div>
+        <p class="cal__nota"><span class="cal__muestra" aria-hidden="true"></span> Ocupado (sin disponibilidad)</p>
+      </div>
+      <p class="guardando" id="guardandoDisp" aria-live="polite"></p>
+    </section>
+
+    <!-- --------------------------------------------------------- PORTADA -->
+    <section class="seccion-admin" id="secPortada">
+      <h2>Portada</h2>
+      <p class="intro">
+        El banner de inicio del sitio. Pegá las direcciones del video y de la
+        imagen de respaldo. Si dejás el video vacío, se muestra solo la imagen.
+      </p>
+
+      <div class="campos-hero">
+        <label class="campo">
+          <span>Dirección del video (URL)</span>
+          <input type="url" id="heroVideo" placeholder="https://...">
+        </label>
+        <p class="ayuda">
+          mp4, liviano (hasta ~6 MB), sin sonido. En celular no se muestra el
+          video, solo la imagen.
+        </p>
+
+        <label class="campo">
+          <span>Dirección de la imagen de portada (URL)</span>
+          <input type="url" id="heroPoster" placeholder="https://...">
+        </label>
+        <p class="ayuda">
+          Es lo que se ve mientras carga el video, y lo único que se ve en celular.
+        </p>
+
+        <div>
+          <button type="button" class="boton" id="btnGuardarHero">Guardar portada</button>
+        </div>
+        <p class="guardando" id="guardandoHero" aria-live="polite"></p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="cargando" id="cargando">Cargando…</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var CFG = window.SAN_EUSEBIO || {};
+  var sb = null;
+  try {
+    sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
+  } catch (e) {
+    document.getElementById('cargando').textContent =
+      'No se pudo conectar con la base de datos. Revisá config.js.';
+  }
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------------------------------------------------------- sesión ----- */
+  function mostrarPanel(hayaSesion) {
+    $('cargando').style.display = 'none';
+    $('pantallaLogin').style.display = hayaSesion ? 'none' : 'grid';
+    $('pantallaPanel').classList.toggle('activo', hayaSesion);
+    if (hayaSesion) iniciarPanel();
+  }
+
+  if (sb) {
+    sb.auth.getSession().then(function (res) {
+      mostrarPanel(!!(res && res.data && res.data.session));
+    }).catch(function () { mostrarPanel(false); });
+  }
+
+  /* ---------------------------------------------------------- login ------ */
+  $('formLogin').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = $('loginError');
+    err.hidden = true;
+    var btn = $('btnLogin');
+    btn.disabled = true; btn.textContent = 'Ingresando…';
+
+    sb.auth.signInWithPassword({
+      email: $('email').value.trim(),
+      password: $('password').value
+    }).then(function (res) {
+      btn.disabled = false; btn.textContent = 'Ingresar';
+      if (res.error) {
+        err.hidden = false;
+        err.textContent = 'No pudimos ingresar. Revisá el email y la contraseña.';
+        return;
+      }
+      mostrarPanel(true);
+    }).catch(function () {
+      btn.disabled = false; btn.textContent = 'Ingresar';
+      err.hidden = false;
+      err.textContent = 'Hubo un problema al conectar. Probá de nuevo.';
+    });
+  });
+
+  $('btnSalir').addEventListener('click', function () {
+    sb.auth.signOut().then(function () { location.reload(); });
+  });
+
+  /* ---------------------------------------------------------- tabs ------- */
+  var panelIniciado = false;
+  function iniciarPanel() {
+    if (panelIniciado) return;
+    panelIniciado = true;
+
+    document.querySelectorAll('.tab').forEach(function (t) {
+      t.addEventListener('click', function () {
+        document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('activo'); });
+        t.classList.add('activo');
+        var sec = t.getAttribute('data-seccion');
+        $('secDisponibilidad').classList.toggle('activa', sec === 'disponibilidad');
+        $('secPortada').classList.toggle('activa', sec === 'portada');
+      });
+    });
+
+    iniciarCalendario();
+    cargarHero();
+  }
+
+  /* ------------------------------------------------------ utilidades ----- */
+  var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+    'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  function aClave(f) {
+    return f.getFullYear() + '-' +
+      String(f.getMonth() + 1).padStart(2, '0') + '-' +
+      String(f.getDate()).padStart(2, '0');
+  }
+
+  /* ------------------------------------------------- calendario admin ---- */
+  function iniciarCalendario() {
+    var grilla = $('calDias');
+    var etiqueta = $('etiquetaMes');
+    var aviso = $('guardandoDisp');
+    var hoy = aClave(new Date());
+    var ocupadas = {};                 // fecha -> true
+    var vista = { anio: new Date().getFullYear(), mes: new Date().getMonth() };
+
+    // Traer todas las fechas ocupadas
+    sb.from('disponibilidad').select('fecha').eq('disponible', false)
+      .then(function (res) {
+        if (res && res.data) res.data.forEach(function (r) { ocupadas[r.fecha] = true; });
+        dibujar();
+      });
+
+    function dibujar() {
+      etiqueta.textContent = MESES[vista.mes] + ' ' + vista.anio;
+      grilla.innerHTML = '';
+      var primero = new Date(vista.anio, vista.mes, 1);
+      var dias = new Date(vista.anio, vista.mes + 1, 0).getDate();
+      var corr = (primero.getDay() + 6) % 7;
+      var i;
+      for (i = 0; i < corr; i++) grilla.appendChild(document.createElement('span'));
+      for (var d = 1; d <= dias; d++) {
+        var clave = aClave(new Date(vista.anio, vista.mes, d));
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'cal__dia' + (ocupadas[clave] ? ' ocupado' : '');
+        b.textContent = String(d);
+        b.setAttribute('data-clave', clave);
+        if (clave < hoy) b.disabled = true;
+        grilla.appendChild(b);
+      }
+      $('mesAnt').disabled = (vista.anio === new Date().getFullYear() &&
+                              vista.mes === new Date().getMonth());
+    }
+
+    grilla.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('button') : null;
+      if (!b || b.disabled) return;
+      var clave = b.getAttribute('data-clave');
+      var estabaOcupada = !!ocupadas[clave];
+      aviso.textContent = 'Guardando…';
+
+      if (estabaOcupada) {
+        // Liberar: borrar la fila
+        sb.from('disponibilidad').delete().eq('fecha', clave).then(function (res) {
+          if (res.error) { aviso.textContent = 'No se pudo guardar. Probá de nuevo.'; return; }
+          delete ocupadas[clave];
+          b.classList.remove('ocupado');
+          aviso.textContent = 'Guardado ✓';
+        });
+      } else {
+        // Ocupar: crear/actualizar la fila
+        sb.from('disponibilidad').upsert({ fecha: clave, disponible: false }).then(function (res) {
+          if (res.error) { aviso.textContent = 'No se pudo guardar. Probá de nuevo.'; return; }
+          ocupadas[clave] = true;
+          b.classList.add('ocupado');
+          aviso.textContent = 'Guardado ✓';
+        });
+      }
+    });
+
+    $('mesAnt').addEventListener('click', function () {
+      var f = new Date(vista.anio, vista.mes - 1, 1);
+      vista = { anio: f.getFullYear(), mes: f.getMonth() }; dibujar();
+    });
+    $('mesSig').addEventListener('click', function () {
+      var f = new Date(vista.anio, vista.mes + 1, 1);
+      vista = { anio: f.getFullYear(), mes: f.getMonth() }; dibujar();
+    });
+  }
+
+  /* ------------------------------------------------------------- hero ---- */
+  function cargarHero() {
+    sb.from('configuracion').select('hero_video_url, hero_poster_url').eq('id', 1).single()
+      .then(function (res) {
+        if (res && res.data) {
+          $('heroVideo').value = res.data.hero_video_url || '';
+          $('heroPoster').value = res.data.hero_poster_url || '';
+        }
+      });
+
+    $('btnGuardarHero').addEventListener('click', function () {
+      var aviso = $('guardandoHero');
+      aviso.textContent = 'Guardando…';
+      sb.from('configuracion').update({
+        hero_video_url: $('heroVideo').value.trim() || null,
+        hero_poster_url: $('heroPoster').value.trim() || null,
+        actualizado_en: new Date().toISOString()
+      }).eq('id', 1).then(function (res) {
+        aviso.textContent = res.error ? 'No se pudo guardar. Probá de nuevo.' : 'Guardado ✓';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
