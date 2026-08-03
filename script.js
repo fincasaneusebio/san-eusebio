@@ -182,6 +182,40 @@
   }
 
   /* ===================================================== hero (Supabase) == */
+
+  /* Interruptor: poner en false vuelve al comportamiento viejo (video solo en
+     pantallas grandes, celular siempre con la foto fija). */
+  var VIDEO_EN_MOBILE = true;
+
+  /* En celular no se pide el mismo archivo que en escritorio. Si el video está
+     en Cloudinary, se le encarga a Cloudinary una versión angosta y más
+     comprimida: mismo video, una fracción del peso. Si la URL es de otro lado,
+     se devuelve tal cual y no pasa nada. */
+  function versionLiviana(url) {
+    if (!url || url.indexOf('res.cloudinary.com') === -1) return url;
+    var corte = url.indexOf('/video/upload/');
+    if (corte === -1) return url;
+    corte += '/video/upload/'.length;
+    return url.slice(0, corte) + 'w_720,c_limit,q_auto:eco/' + url.slice(corte);
+  }
+
+  /* Decide si corresponde cargar video y con qué criterio. */
+  function planDeVideo() {
+    var grande = window.matchMedia('(min-width: 48rem)').matches;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var con = navigator.connection || {};
+    var ahorro = con.saveData === true;
+    var tipo = con.effectiveType || '';
+    var redoLenta = (tipo === '2g' || tipo === 'slow-2g');
+
+    /* Nadie recibe video si pidió menos movimiento o activó ahorro de datos.
+       En el campo la señal manda: con 2G se queda la foto y listo. */
+    if (quieto || ahorro || redoLenta) return null;
+    if (!grande && !VIDEO_EN_MOBILE) return null;
+
+    return { grande: grande };
+  }
+
   function cargarHero() {
     if (!sb) return;
     sb.from('configuracion')
@@ -202,19 +236,37 @@
           img.className = 'hero-poster';
           fondo.insertBefore(img, fondo.firstChild);
         }
-        var grande = window.matchMedia('(min-width: 48rem)').matches;
-        var ahorro = navigator.connection && navigator.connection.saveData === true;
-        if (d.hero_video_url && grande && !ahorro) {
-          var v = document.createElement('video');
-          v.src = d.hero_video_url;
-          if (d.hero_poster_url) v.poster = d.hero_poster_url;
-          v.autoplay = true; v.muted = true; v.loop = true;
-          v.playsInline = true; v.setAttribute('playsinline', '');
-          v.className = 'hero-video';
-          v.setAttribute('aria-hidden', 'true');
-          var velo = fondo.querySelector('.hero-velo');
-          fondo.insertBefore(v, velo);
-        }
+        var plan = planDeVideo();
+        if (!d.hero_video_url || !plan) return;
+
+        var v = document.createElement('video');
+        v.src = plan.grande ? d.hero_video_url : versionLiviana(d.hero_video_url);
+        if (d.hero_poster_url) v.poster = d.hero_poster_url;
+        v.autoplay = true; v.muted = true; v.loop = true;
+        v.playsInline = true; v.setAttribute('playsinline', '');
+        v.setAttribute('muted', '');
+        v.preload = plan.grande ? 'auto' : 'none';
+        v.className = 'hero-video';
+        v.setAttribute('aria-hidden', 'true');
+
+        /* Red de contención: si el video no llega a reproducirse en 8 segundos
+           —señal mala, archivo pesado, autoplay bloqueado— se saca del medio y
+           queda la foto fija, que es lo que había antes. El visitante nunca ve
+           un rectángulo negro esperando. */
+        var vivo = false;
+        v.addEventListener('playing', function () { vivo = true; });
+        v.addEventListener('error', function () { if (v.parentNode) v.parentNode.removeChild(v); });
+        setTimeout(function () {
+          if (!vivo && v.parentNode) v.parentNode.removeChild(v);
+        }, 8000);
+
+        var velo = fondo.querySelector('.hero-velo');
+        fondo.insertBefore(v, velo);
+
+        /* En celular la reproducción automática puede estar bloqueada (modo de
+           bajo consumo, por ejemplo). Se pide igual y si dice que no, no rompe. */
+        var intento = v.play();
+        if (intento && intento.catch) intento.catch(function () { });
       })
       .catch(function () { });
   }
