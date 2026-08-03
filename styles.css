@@ -618,6 +618,9 @@ p {
     linear-gradient(150deg, rgba(var(--verde-rgb), 0.55), rgba(var(--tabaco-rgb), 0.4));
 }
 
+/* Sin texto no ocupa lugar: el pie es opcional y se carga desde el panel. */
+.intro-pie:empty { display: none; }
+
 .intro-pie {
   margin-top: 0.85rem;
   font-family: var(--display);
