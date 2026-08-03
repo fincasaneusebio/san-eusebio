@@ -1207,6 +1207,31 @@ a.exp-enlace:hover {
 .ft-logo .wordmark { font-size: 1.1rem; }
 .hero-logo .wordmark { font-size: clamp(1.6rem, 5.5vw, 3rem); }
 
+/* ---------------------------------------------------------- logo (SVG) --- */
+/* Imagen del logo. Cada ubicación fija su alto; el ancho se acomoda solo. */
+.logo-img { display: block; width: auto; }
+
+/* Header: se muestran los dos apilados y se alterna según el fondo.
+   Sobre el hero (transparente) va el claro; al scrollear (lino) el oscuro. */
+.hd-logo { position: relative; display: inline-block; line-height: 0; }
+.hd-logo .logo-img { height: clamp(2.1rem, 4.5vw, 2.6rem); }
+.hd-logo .logo-oscuro { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s var(--ease); }
+.hd-solido .hd-logo .logo-claro { opacity: 0; }
+.hd-solido .hd-logo .logo-oscuro { opacity: 1; }
+/* Con el menú móvil abierto (fondo verde) vuelve el claro. */
+.hd-conMenu .hd-logo .logo-claro { opacity: 1; }
+.hd-conMenu .hd-logo .logo-oscuro { opacity: 0; }
+
+/* Hero: logo claro, grande y centrado. */
+.hero-logo .logo-img { height: clamp(6rem, 18vw, 11rem); margin-inline: auto; }
+
+/* Footer: logo claro, tamaño medio. */
+.ft-logo .logo-img { height: 3.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hd-logo .logo-oscuro { transition: none; }
+}
+
 /* --- página coaching con caballos --- */
 .coaching-hero {
   position: relative;
