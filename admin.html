@@ -168,6 +168,68 @@
   .foto-preview span { font-size: 0.8rem; color: var(--tabaco); }
   .foto-slot input[type="file"] { font-size: 0.85rem; width: 100%; }
   .foto-slot .estado { font-size: 0.8rem; color: var(--tabaco); min-height: 1.3em; margin-top: 0.5rem; }
+  .foto-acciones { display: none; gap: 0.5rem; margin-top: 0.6rem; }
+  .foto-acciones.visible { display: flex; }
+  .foto-preview.borrador { outline: 2px dashed var(--ambar); outline-offset: -2px; }
+
+  /* ------------------------------------------------------ vista previa --- */
+  /* Reproduce los estilos del sitio para que lo que se ve acá sea lo que va
+     a quedar publicado. No es una captura del sitio: es el mismo texto con
+     la misma tipografia y los mismos colores. */
+  .previa {
+    border: 1px solid rgba(var(--tabaco-rgb), 0.25);
+    padding: clamp(1.25rem, 4vw, 2rem);
+    background: #fbf7ee;
+  }
+  .previa__marca {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--tabaco); margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .previa__punto {
+    width: 0.5rem; height: 0.5rem; border-radius: 50%;
+    background: var(--ambar); flex-shrink: 0;
+  }
+  .previa__bloque + .previa__bloque {
+    margin-top: 2rem; padding-top: 2rem;
+    border-top: 1px solid rgba(var(--tabaco-rgb), 0.18);
+  }
+  .previa__titulo {
+    font-family: var(--display); font-weight: 400; line-height: 1.15;
+    font-size: clamp(1.5rem, 4vw, 2.1rem); color: var(--colorado);
+  }
+  .previa__filete { width: 3.5rem; height: 1px; background: var(--ambar); margin: 0.9rem 0 1.1rem; }
+  .previa__bajada {
+    font-family: var(--display); font-style: italic; font-weight: 300;
+    font-size: 1.1rem; line-height: 1.5; color: rgba(var(--tinta-rgb), 0.85);
+  }
+  .previa__cuerpo p { margin-bottom: 0.9rem; }
+  .previa__cuerpo p:last-child { margin-bottom: 0; }
+  .previa__pie {
+    font-family: var(--display); font-style: italic;
+    font-size: 0.92rem; color: var(--tabaco);
+  }
+  .previa__vacio { color: rgba(var(--tinta-rgb), 0.35); font-style: italic; }
+
+  .previa-portada { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
+  @media (min-width: 46rem) { .previa-portada { grid-template-columns: 1fr 1fr; } }
+  .previa-portada figure { margin: 0; }
+  .previa-portada figcaption {
+    font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--tabaco); margin-bottom: 0.5rem;
+  }
+  .previa-portada .marco {
+    aspect-ratio: 16 / 9; background: rgba(var(--tabaco-rgb), 0.12);
+    display: grid; place-items: center; overflow: hidden;
+  }
+  .previa-portada video, .previa-portada img { width: 100%; height: 100%; object-fit: cover; }
+  .previa-portada .marco p { font-size: 0.82rem; color: var(--tabaco); padding: 1rem; text-align: center; }
+
+  .aviso-borrador {
+    display: none; align-items: center; gap: 0.5rem;
+    font-size: 0.82rem; color: var(--tabaco); margin-top: 0.75rem;
+  }
+  .aviso-borrador.visible { display: flex; }
 </style>
 </head>
 <body>
@@ -248,40 +310,53 @@
       <div class="campos-hero" id="camposTextos">
         <label class="campo">
           <span>La finca · título</span>
-          <input type="text" data-clave="finca_titulo">
+          <input type="text" data-clave="finca_titulo" data-defecto="Un campo que sigue funcionando">
         </label>
         <label class="campo">
           <span>La finca · cuerpo (varios párrafos)</span>
-          <textarea rows="8" data-clave="finca_cuerpo"></textarea>
+          <textarea rows="8" data-clave="finca_cuerpo" data-defecto="San Eusebio no es un hotel con paisaje alrededor. Es una finca en actividad: hay olivos que se cosechan, una huerta que da lo que da según el mes, caballos que trabajan y una casa que se abrió para recibir gente.&#10;&#10;El casco tiene dos casas. En una vive la familia; la otra es la que se ofrece, con seis habitaciones, cocina casera y una galería larga donde termina cayendo todo el mundo a la tarde.&#10;&#10;Estamos a media hora de Tandil por camino de tierra. Esa media hora es parte de la propuesta: cuando llegás, ya bajaste un cambio."></textarea>
+        </label>
+
+        <label class="campo">
+          <span>La finca · pie de la foto</span>
+          <input type="text" data-clave="finca_pie" data-defecto="El olivar, en marzo.">
         </label>
 
         <label class="campo">
           <span>Habitaciones · título</span>
-          <input type="text" data-clave="habitaciones_titulo">
+          <input type="text" data-clave="habitaciones_titulo" data-defecto="Seis habitaciones">
         </label>
         <label class="campo">
           <span>Habitaciones · bajada</span>
-          <textarea rows="3" data-clave="habitaciones_intro"></textarea>
+          <textarea rows="3" data-clave="habitaciones_intro" data-defecto="La casa se puede alquilar entera o por habitación suelta. Cada una tiene su carácter, y todas miran al campo."></textarea>
         </label>
 
         <label class="campo">
           <span>Experiencias · título</span>
-          <input type="text" data-clave="experiencias_titulo">
+          <input type="text" data-clave="experiencias_titulo" data-defecto="Qué se puede hacer">
         </label>
         <label class="campo">
           <span>Experiencias · bajada</span>
-          <textarea rows="3" data-clave="experiencias_intro"></textarea>
+          <textarea rows="3" data-clave="experiencias_intro" data-defecto="Nada es obligatorio. Se puede pasar el día entero leyendo bajo los eucaliptos y eso también cuenta como plan."></textarea>
         </label>
 
         <label class="campo">
           <span>Cómo llegar · título</span>
-          <input type="text" data-clave="comollegar_titulo">
+          <input type="text" data-clave="comollegar_titulo" data-defecto="Cómo llegar">
         </label>
 
         <div>
           <button type="button" class="boton" id="btnGuardarTextos">Guardar textos</button>
         </div>
         <p class="guardando" id="guardandoTextos" aria-live="polite"></p>
+        <p class="aviso-borrador" id="avisoTextos">
+          <span class="previa__punto" aria-hidden="true"></span>
+          Hay cambios sin guardar. Se ven acá abajo, pero todavía no en el sitio.
+        </p>
+      </div>
+
+      <div class="previa" id="previaTextos" style="margin-top:2rem">
+        <p class="previa__marca"><span class="previa__punto" aria-hidden="true"></span> Vista previa</p>
       </div>
     </section>
 
@@ -299,30 +374,50 @@
           <h3>La finca</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
           <p class="estado"></p>
         </div>
         <div class="foto-slot" data-clave="foto_hab_la-galeria">
           <h3>Habitación · La Galería</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
           <p class="estado"></p>
         </div>
         <div class="foto-slot" data-clave="foto_hab_los-olivos">
           <h3>Habitación · Los Olivos</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
           <p class="estado"></p>
         </div>
         <div class="foto-slot" data-clave="foto_hab_la-huerta">
           <h3>Habitación · La Huerta</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
           <p class="estado"></p>
         </div>
         <div class="foto-slot" data-clave="foto_hab_el-fondo">
           <h3>Habitación · El Fondo</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
           <p class="estado"></p>
         </div>
       </div>
@@ -356,8 +451,20 @@
 
         <div>
           <button type="button" class="boton" id="btnGuardarHero">Guardar portada</button>
+          <button type="button" class="boton boton--fantasma" id="btnProbarHero">Probar sin guardar</button>
         </div>
         <p class="guardando" id="guardandoHero" aria-live="polite"></p>
+      </div>
+
+      <div class="previa-portada">
+        <figure>
+          <figcaption>Video</figcaption>
+          <div class="marco" id="previaVideo"><p>Todavía no probaste el video.</p></div>
+        </figure>
+        <figure>
+          <figcaption>Imagen de portada</figcaption>
+          <div class="marco" id="previaPoster"><p>Todavía no probaste la imagen.</p></div>
+        </figure>
       </div>
     </section>
   </div>
@@ -536,17 +643,122 @@
   /* ------------------------------------------------------------ textos --- */
   function iniciarTextos() {
     var campos = document.querySelectorAll('#camposTextos [data-clave]');
+    var guardado = {};   // lo que hay publicado, para saber qué cambió
+
+    /* Qué bloques dibuja la vista previa y con qué forma. Si mañana se agrega
+       un campo nuevo, se agrega acá una línea y la previa lo toma sola. */
+    var BLOQUES = [
+      { rotulo: 'La finca',      titulo: 'finca_titulo',        cuerpo: 'finca_cuerpo',
+        pie: 'finca_pie' },
+      { rotulo: 'Habitaciones',  titulo: 'habitaciones_titulo', bajada: 'habitaciones_intro' },
+      { rotulo: 'Experiencias',  titulo: 'experiencias_titulo', bajada: 'experiencias_intro' },
+      { rotulo: 'Cómo llegar',   titulo: 'comollegar_titulo' }
+    ];
+
+    function valor(clave) {
+      var c = document.querySelector('#camposTextos [data-clave="' + clave + '"]');
+      return c ? c.value : '';
+    }
+
+    function texto(el, contenido, claseVacio) {
+      if (contenido && contenido.trim()) { el.textContent = contenido; }
+      else { el.textContent = '(vacío)'; el.className += ' ' + claseVacio; }
+    }
+
+    function dibujarPrevia() {
+      var caja = $('previaTextos');
+      caja.innerHTML = '';
+
+      var marca = document.createElement('p');
+      marca.className = 'previa__marca';
+      marca.innerHTML = '<span class="previa__punto" aria-hidden="true"></span> Vista previa';
+      caja.appendChild(marca);
+
+      BLOQUES.forEach(function (b) {
+        var bloque = document.createElement('div');
+        bloque.className = 'previa__bloque';
+
+        var rot = document.createElement('p');
+        rot.className = 'eyebrow';
+        rot.textContent = b.rotulo;
+        rot.style.marginBottom = '0.5rem';
+        bloque.appendChild(rot);
+
+        var h2 = document.createElement('h3');
+        h2.className = 'previa__titulo';
+        texto(h2, valor(b.titulo), 'previa__vacio');
+        bloque.appendChild(h2);
+
+        var filete = document.createElement('div');
+        filete.className = 'previa__filete';
+        bloque.appendChild(filete);
+
+        if (b.bajada) {
+          var baj = document.createElement('p');
+          baj.className = 'previa__bajada';
+          texto(baj, valor(b.bajada), 'previa__vacio');
+          bloque.appendChild(baj);
+        }
+
+        if (b.cuerpo) {
+          var cuerpo = document.createElement('div');
+          cuerpo.className = 'previa__cuerpo';
+          var crudo = valor(b.cuerpo);
+          if (crudo && crudo.trim()) {
+            /* Misma regla que el sitio: una línea en blanco = párrafo nuevo.
+               Acá se ve enseguida si los saltos quedaron bien puestos. */
+            crudo.split(/\n\s*\n/).forEach(function (p) {
+              if (!p.trim()) return;
+              var el = document.createElement('p');
+              el.textContent = p.trim();
+              cuerpo.appendChild(el);
+            });
+          } else {
+            var v = document.createElement('p');
+            v.className = 'previa__vacio';
+            v.textContent = '(vacío)';
+            cuerpo.appendChild(v);
+          }
+          bloque.appendChild(cuerpo);
+        }
+
+        if (b.pie) {
+          var pie = document.createElement('p');
+          pie.className = 'previa__pie';
+          pie.style.marginTop = '1rem';
+          texto(pie, valor(b.pie), 'previa__vacio');
+          bloque.appendChild(pie);
+        }
+
+        caja.appendChild(bloque);
+      });
+
+      // ¿Hay algo distinto de lo publicado?
+      var hayCambios = false;
+      campos.forEach(function (c) {
+        var k = c.getAttribute('data-clave');
+        if ((guardado[k] || '') !== c.value) hayCambios = true;
+      });
+      $('avisoTextos').className = 'aviso-borrador' + (hayCambios ? ' visible' : '');
+    }
 
     // Cargar valores actuales desde la base.
     sb.from('contenidos').select('clave, valor').then(function (res) {
-      if (!res || !res.data) return;
-      var mapa = {};
-      res.data.forEach(function (f) { mapa[f.clave] = f.valor; });
-      campos.forEach(function (c) {
-        var k = c.getAttribute('data-clave');
-        if (mapa[k] != null) c.value = mapa[k];
-      });
+      if (res && res.data) {
+        res.data.forEach(function (f) { guardado[f.clave] = f.valor || ''; });
+        campos.forEach(function (c) {
+          var k = c.getAttribute('data-clave');
+          /* Si nunca se editó desde el panel, el sitio muestra el texto que
+             viene escrito en el HTML. Se carga ese, no un campo en blanco:
+             lo que se ve acá es siempre lo que está publicado. */
+          if (guardado[k]) c.value = guardado[k];
+          else c.value = c.getAttribute('data-defecto') || '';
+        });
+      }
+      dibujarPrevia();
     });
+
+    campos.forEach(function (c) { c.addEventListener('input', dibujarPrevia); });
 
     $('btnGuardarTextos').addEventListener('click', function () {
       var aviso = $('guardandoTextos');
@@ -559,7 +771,10 @@
 
       // upsert de todas las filas de una sola vez.
       sb.from('contenidos').upsert(filas, { onConflict: 'clave' }).then(function (res) {
-        aviso.textContent = res.error ? 'No se pudo guardar. Probá de nuevo.' : 'Guardado ✓';
+        if (res.error) { aviso.textContent = 'No se pudo guardar. Probá de nuevo.'; return; }
+        aviso.textContent = 'Guardado ✓';
+        campos.forEach(function (c) { guardado[c.getAttribute('data-clave')] = c.value; });
+        dibujarPrevia();
       });
     });
   }
@@ -567,15 +782,15 @@
   /* ------------------------------------------------------------- fotos --- */
   function iniciarFotos() {
     var slots = document.querySelectorAll('#fotosGrilla .foto-slot');
+    var publicadas = {};   // lo que hoy está en el sitio, por si se cancela
 
     // Cargar las fotos ya guardadas (sus URLs viven en 'contenidos').
     sb.from('contenidos').select('clave, valor').then(function (res) {
       if (!res || !res.data) return;
-      var mapa = {};
-      res.data.forEach(function (f) { mapa[f.clave] = f.valor; });
+      res.data.forEach(function (f) { if (f.valor) publicadas[f.clave] = f.valor; });
       slots.forEach(function (slot) {
         var k = slot.getAttribute('data-clave');
-        if (mapa[k]) mostrarPreview(slot, mapa[k]);
+        if (publicadas[k]) mostrarPreview(slot, publicadas[k]);
       });
     });
 
@@ -584,9 +799,39 @@
       var estado = slot.querySelector('.estado');
       var clave = slot.getAttribute('data-clave');
 
+      var acciones = slot.querySelector('.foto-acciones');
+      var btnSubir = slot.querySelector('[data-accion="subir"]');
+      var btnCancelar = slot.querySelector('[data-accion="cancelar"]');
+      var urlBorrador = null;   // la foto elegida pero todavía no subida
+
+      /* Elegir una foto ya NO la sube: primero se ve, después se confirma.
+         Así se puede descartar una foto mal encuadrada sin haber pisado la
+         que estaba publicada. */
       input.addEventListener('change', function () {
         var archivo = input.files && input.files[0];
         if (!archivo) return;
+
+        if (urlBorrador) URL.revokeObjectURL(urlBorrador);
+        urlBorrador = URL.createObjectURL(archivo);
+        mostrarPreview(slot, urlBorrador, true);
+        acciones.className = 'foto-acciones visible';
+
+        var mb = archivo.size / (1024 * 1024);
+        estado.textContent = 'Así se va a ver. Pesa ' + mb.toFixed(1) + ' MB.' +
+          (mb > 2 ? ' Conviene achicarla antes de subirla.' : '');
+      });
+
+      btnCancelar.addEventListener('click', function () {
+        limpiarBorrador();
+        estado.textContent = 'Se descartó. Quedó la foto que estaba.';
+        if (publicadas[clave]) mostrarPreview(slot, publicadas[clave]);
+        else vaciarPreview(slot);
+      });
+
+      btnSubir.addEventListener('click', function () {
+        var archivo = input.files && input.files[0];
+        if (!archivo) return;
+        btnSubir.disabled = true;
         estado.textContent = 'Subiendo…';
 
         // Nombre único para evitar problemas de caché.
@@ -598,32 +843,54 @@
         }).then(function (res) {
           if (res.error) {
             estado.textContent = 'No se pudo subir. Probá con otra imagen.';
+            btnSubir.disabled = false;
             return;
           }
           var pub = sb.storage.from('fotos').getPublicUrl(ruta);
           var url = pub && pub.data && pub.data.publicUrl;
-          if (!url) { estado.textContent = 'No se pudo obtener la dirección.'; return; }
+          if (!url) {
+            estado.textContent = 'No se pudo obtener la dirección.';
+            btnSubir.disabled = false;
+            return;
+          }
 
           // Guardar la URL en contenidos.
           sb.from('contenidos').upsert({ clave: clave, valor: url }, { onConflict: 'clave' })
             .then(function (r2) {
+              btnSubir.disabled = false;
               if (r2.error) { estado.textContent = 'Se subió, pero no se pudo guardar.'; return; }
+              publicadas[clave] = url;
+              limpiarBorrador();
               mostrarPreview(slot, url);
               estado.textContent = 'Guardado ✓';
             });
         }).catch(function () {
           estado.textContent = 'Hubo un problema al subir.';
+          btnSubir.disabled = false;
         });
       });
+
+      function limpiarBorrador() {
+        if (urlBorrador) { URL.revokeObjectURL(urlBorrador); urlBorrador = null; }
+        input.value = '';
+        acciones.className = 'foto-acciones';
+      }
     });
 
-    function mostrarPreview(slot, url) {
+    function mostrarPreview(slot, url, esBorrador) {
       var prev = slot.querySelector('.foto-preview');
       prev.innerHTML = '';
+      prev.className = 'foto-preview' + (esBorrador ? ' borrador' : '');
       var img = document.createElement('img');
       img.src = url;
       img.alt = '';
       prev.appendChild(img);
+    }
+
+    function vaciarPreview(slot) {
+      var prev = slot.querySelector('.foto-preview');
+      prev.className = 'foto-preview';
+      prev.innerHTML = '<span>Sin foto</span>';
     }
   }
 
@@ -637,6 +904,51 @@
         }
       });
 
+    /* Probar sin guardar: carga el video y la imagen tal cual los va a cargar
+       el sitio. Si la dirección no sirve —el caso típico es pegar un link de
+       YouTube en vez de un archivo— se ve acá y no en el sitio publicado. */
+    function probar() {
+      var video = $('heroVideo').value.trim();
+      var poster = $('heroPoster').value.trim();
+
+      var cajaV = $('previaVideo');
+      cajaV.innerHTML = '';
+      if (!video) {
+        cajaV.innerHTML = '<p>No hay dirección de video cargada.</p>';
+      } else if (/youtube\.com|youtu\.be|vimeo\.com/i.test(video)) {
+        cajaV.innerHTML = '<p>Esa es una página de video, no un archivo. ' +
+          'El banner necesita una dirección que termine en .mp4</p>';
+      } else {
+        var v = document.createElement('video');
+        v.src = video;
+        v.muted = true; v.loop = true; v.autoplay = true;
+        v.playsInline = true; v.setAttribute('playsinline', '');
+        v.addEventListener('error', function () {
+          cajaV.innerHTML = '<p>No se pudo cargar el video desde esa dirección.</p>';
+        });
+        cajaV.appendChild(v);
+        var intento = v.play();
+        if (intento && intento.catch) intento.catch(function () { });
+      }
+
+      var cajaP = $('previaPoster');
+      cajaP.innerHTML = '';
+      if (!poster) {
+        cajaP.innerHTML = '<p>No hay imagen de portada. Sin ella, en celular ' +
+          'el banner queda con un degradado en vez de una foto.</p>';
+      } else {
+        var img = document.createElement('img');
+        img.src = poster;
+        img.alt = '';
+        img.addEventListener('error', function () {
+          cajaP.innerHTML = '<p>No se pudo cargar la imagen desde esa dirección.</p>';
+        });
+        cajaP.appendChild(img);
+      }
+    }
+
+    $('btnProbarHero').addEventListener('click', probar);
+
     $('btnGuardarHero').addEventListener('click', function () {
       var aviso = $('guardandoHero');
       aviso.textContent = 'Guardando…';
@@ -646,6 +958,7 @@
         actualizado_en: new Date().toISOString()
       }).eq('id', 1).then(function (res) {
         aviso.textContent = res.error ? 'No se pudo guardar. Probá de nuevo.' : 'Guardado ✓';
+        if (!res.error) probar();
       });
     });
   }

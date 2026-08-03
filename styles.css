@@ -522,9 +522,9 @@ p {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(36, 31, 24, 0.42) 0%,
-    rgba(36, 31, 24, 0.22) 40%,
-    rgba(36, 31, 24, 0.55) 100%
+    rgba(36, 31, 24, 0.45) 0%,
+    rgba(36, 31, 24, 0.34) 45%,
+    rgba(36, 31, 24, 0.58) 100%
   );
 }
 
@@ -587,16 +587,16 @@ p {
 }
 
 
-.intro-grilla {
+/* El texto arriba, la foto abajo cerrando el bloque. El texto se limita en
+   ancho para que la línea siga siendo cómoda de leer; la foto usa todo el
+   ancho del contenedor, apaisada. */
+.intro-bloque {
   display: grid;
-  gap: clamp(2.5rem, 6vw, 4.5rem);
-  align-items: center;
+  gap: clamp(2.5rem, 6vw, 4rem);
 }
 
-@media (min-width: 58rem) {
-  .intro-grilla {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  }
+.intro-texto {
+  max-width: 62ch;
 }
 
 .intro-imagen {
@@ -605,14 +605,14 @@ p {
 
 .intro-imagen img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
 .intro-sinFoto {
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 16 / 9;
   background:
     radial-gradient(90% 70% at 70% 20%, rgba(217, 154, 43, 0.2), transparent 60%),
     linear-gradient(150deg, rgba(var(--verde-rgb), 0.55), rgba(var(--tabaco-rgb), 0.4));
@@ -743,6 +743,26 @@ a.exp-enlace:hover {
   color: rgba(var(--lino-rgb), 0.82);
 }
 
+/* Aclaración práctica de cada experiencia: si entra en la estadía o si se
+   coordina y se paga aparte. Va separada del texto para que se lea de un
+   vistazo y no le saque aire a la descripción. */
+.exp-nota {
+  display: inline-block;
+  margin-top: 1.1rem;
+  padding: 0.35em 0.9em;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(var(--lino-rgb), 0.9);
+  border: 1px solid rgba(var(--lino-rgb), 0.35);
+}
+
+.exp-nota--aparte {
+  color: var(--ambar);
+  border-color: rgba(217, 154, 43, 0.55);
+}
+
 .exp-masInfo {
   display: inline-block;
   margin-top: 1rem;
@@ -773,17 +793,24 @@ a.exp-enlace:hover {
   }
 
   .exp-texto,
-  .exp-masInfo {
+  .exp-masInfo,
+  .exp-nota {
     grid-column: 2;
-    margin-top: 0;
   }
 
   .exp-texto {
     grid-row: 1 / span 2;
+    margin-top: 0;
   }
 
-  .exp-masInfo {
+  .exp-nota {
     grid-row: 3;
+    margin-top: 1rem;
+  }
+
+  /* Fila propia: en coaching conviven la aclaración y el "Conocer más". */
+  .exp-masInfo {
+    grid-row: 4;
     margin-top: 1rem;
   }
 }
@@ -1216,7 +1243,7 @@ a.exp-enlace:hover {
 /* Header: se muestran los dos apilados y se alterna según el fondo.
    Sobre el hero (transparente) va el claro; al scrollear (lino) el oscuro. */
 .hd-logo { position: relative; display: inline-block; line-height: 0; }
-.hd-logo .logo-img { height: clamp(2.4rem, 5vw, 3.1rem); }
+.hd-logo .logo-img { height: clamp(2.6rem, 5.4vw, 3.4rem); }
 .hd-logo .logo-oscuro { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s var(--ease); }
 .hd-solido .hd-logo .logo-claro { opacity: 0; }
 .hd-solido .hd-logo .logo-oscuro { opacity: 1; }
