@@ -160,6 +160,22 @@
               });
             });
 
+          // Listas: cada línea es un ítem. Sirve para el menú, que va a
+          // crecer, sin que haga falta tocar el HTML cada vez.
+          document.querySelectorAll('[data-contenido-items="' + fila.clave + '"]')
+            .forEach(function (el) {
+              var lineas = fila.valor.split('\n')
+                .map(function (t) { return t.trim(); })
+                .filter(function (t) { return t.length > 0; });
+              if (!lineas.length) return;
+              el.innerHTML = '';
+              lineas.forEach(function (t) {
+                var li = document.createElement('li');
+                li.textContent = t;
+                el.appendChild(li);
+              });
+            });
+
           // Fotos: reemplazan el placeholder por una imagen real.
           document.querySelectorAll('[data-foto="' + fila.clave + '"]')
             .forEach(function (el) {

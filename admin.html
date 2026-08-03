@@ -210,6 +210,11 @@
     font-size: 0.92rem; color: var(--tabaco);
   }
   .previa__vacio { color: rgba(var(--tinta-rgb), 0.35); font-style: italic; }
+  .previa__lista { list-style: none; padding: 0; margin-top: 1rem; }
+  .previa__lista li {
+    font-family: var(--display); font-size: 1.05rem; padding-block: 0.55rem;
+    border-bottom: 1px solid rgba(var(--tabaco-rgb), 0.18);
+  }
 
   .previa-portada { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
   @media (min-width: 46rem) { .previa-portada { grid-template-columns: 1fr 1fr; } }
@@ -324,11 +329,35 @@
 
         <label class="campo">
           <span>Habitaciones · título</span>
-          <input type="text" data-clave="habitaciones_titulo" data-defecto="Seis habitaciones">
+          <input type="text" data-clave="habitaciones_titulo" data-defecto="Cinco habitaciones">
         </label>
         <label class="campo">
           <span>Habitaciones · bajada</span>
           <textarea rows="3" data-clave="habitaciones_intro" data-defecto="La casa se puede alquilar entera o por habitación suelta. Cada una tiene su carácter, y todas miran al campo."></textarea>
+        </label>
+
+        <label class="campo">
+          <span>Habitaciones · precio orientativo</span>
+          <input type="text" data-clave="habitaciones_precio" data-defecto=""
+                 placeholder="Ej.: Desde $85.000 la noche por habitación, con desayuno y cena incluidos.">
+        </label>
+        <p class="ayuda">Mientras esté vacío, el sitio no muestra ninguna línea de precio.</p>
+
+        <label class="campo">
+          <span>La mesa · título</span>
+          <input type="text" data-clave="mesa_titulo" data-defecto="La cena, todas las noches">
+        </label>
+        <label class="campo">
+          <span>La mesa · bajada</span>
+          <textarea rows="3" data-clave="mesa_intro" data-defecto="Está incluida en la estadía y la hace nuestro chef. El menú cambia con la temporada y con lo que haya en la huerta ese día."></textarea>
+        </label>
+        <label class="campo">
+          <span>La mesa · platos (uno por línea)</span>
+          <textarea rows="6" data-clave="mesa_platos" data-defecto="Lomo con papas rejilla&#10;Tallarines con salsa&#10;Sorrentinos con estofado&#10;Risotto"></textarea>
+        </label>
+        <label class="campo">
+          <span>La mesa · aclaración final</span>
+          <input type="text" data-clave="mesa_pie" data-defecto="Si hay alguna dieta especial, avisanos al reservar y lo resolvemos.">
         </label>
 
         <label class="campo">
@@ -405,6 +434,56 @@
         </div>
         <div class="foto-slot" data-clave="foto_hab_la-huerta">
           <h3>Habitación · La Huerta</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_hab_el-molino">
+          <h3>Habitación · El Molino</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_plato_1">
+          <h3>La mesa · Plato 1</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_plato_2">
+          <h3>La mesa · Plato 2</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_plato_3">
+          <h3>La mesa · Plato 3</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_plato_4">
+          <h3>La mesa · Plato 4</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
@@ -694,6 +773,8 @@
       { rotulo: 'La finca',      titulo: 'finca_titulo',        cuerpo: 'finca_cuerpo',
         pie: 'finca_pie' },
       { rotulo: 'Habitaciones',  titulo: 'habitaciones_titulo', bajada: 'habitaciones_intro' },
+      { rotulo: 'La mesa',       titulo: 'mesa_titulo',         bajada: 'mesa_intro',
+        items: 'mesa_platos',      pie: 'mesa_pie' },
       { rotulo: 'Experiencias',  titulo: 'experiencias_titulo', bajada: 'experiencias_intro' },
       { rotulo: 'Cómo llegar',   titulo: 'comollegar_titulo' }
     ];
@@ -763,6 +844,18 @@
             cuerpo.appendChild(v);
           }
           bloque.appendChild(cuerpo);
+        }
+
+        if (b.items) {
+          var lista = document.createElement('ul');
+          lista.className = 'previa__lista';
+          valor(b.items).split('\n').forEach(function (t) {
+            if (!t.trim()) return;
+            var li = document.createElement('li');
+            li.textContent = t.trim();
+            lista.appendChild(li);
+          });
+          if (lista.children.length) bloque.appendChild(lista);
         }
 
         if (b.pie) {

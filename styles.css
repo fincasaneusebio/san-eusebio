@@ -155,6 +155,13 @@ p {
   padding-inline: var(--borde-x);
 }
 
+/* Cuando el bloque termina en una foto a todo el ancho, la imagen misma hace
+   de borde: no hace falta sumarle el aire de abajo, porque la sección
+   siguiente ya trae el suyo. Si no, quedan 18rem juntos y parece un hueco. */
+.seccion--cierraEnFoto {
+  padding-bottom: 0;
+}
+
 .contenedor {
   width: 100%;
   max-width: var(--ancho);
@@ -634,6 +641,25 @@ p {
   margin-bottom: clamp(2.5rem, 6vw, 4rem);
 }
 
+/* Precio orientativo. Nace vacío: si el panel no tiene nada cargado, no se
+   muestra ninguna línea en vez de mostrar un precio de mentira. */
+.hab-precio:empty { display: none; }
+
+.hab-precio {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(var(--tabaco-rgb), 0.22);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  color: var(--colorado);
+}
+
+.hab-aclaracion {
+  margin-top: clamp(2rem, 5vw, 3rem);
+  font-size: 0.92rem;
+  color: var(--tabaco);
+}
+
 .hab-grilla {
   list-style: none;
   padding: 0;
@@ -642,20 +668,54 @@ p {
   grid-template-columns: 1fr;
 }
 
+/* Dos columnas y no tres: con cinco habitaciones, la destacada ocupa el ancho
+   completo y las otras cuatro cierran en un 2x2 parejo. En tres columnas
+   siempre quedaba una suelta al final. */
 @media (min-width: 42rem) {
   .hab-grilla {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (min-width: 66rem) {
-  .hab-grilla {
-    grid-template-columns: repeat(3, 1fr);
+/* ------------------------------------------------ habitación destacada --- */
+/* La única con baño privado abre la lista y se lleva más aire. */
+.hab-item--destacada {
+  grid-column: 1 / -1;
+}
+
+.hab-item--destacada .hab-foto {
+  aspect-ratio: 16 / 10;
+}
+
+.hab-marca {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ambar);
+  margin-bottom: 0.6rem;
+}
+
+@media (min-width: 52rem) {
+  .hab-item--destacada {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 3rem);
+    align-items: center;
+  }
+
+  .hab-item--destacada .hab-foto {
+    margin-bottom: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .hab-item--destacada .hab-nombre {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
   }
 }
 
 .hab-foto {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   background-color: rgba(var(--tabaco-rgb), 0.1);
   margin-bottom: 1.4rem;
@@ -1263,6 +1323,53 @@ a.exp-enlace:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .hd-logo .logo-oscuro { transition: none; }
+}
+
+/* --------------------------------------------------------- la mesa ------ */
+.mesa-menu {
+  list-style: none;
+  padding: 0;
+  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(var(--tabaco-rgb), 0.22);
+  max-width: 46rem;
+}
+
+.mesa-menu li {
+  padding-block: 1.1rem;
+  border-bottom: 1px solid rgba(var(--tabaco-rgb), 0.22);
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  color: var(--tinta);
+}
+
+/* Las fotos de los platos son opcionales: la grilla aparece recién cuando
+   hay alguna cargada, y se acomoda a las que haya. */
+.mesa-fotos {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+@media (min-width: 52rem) {
+  .mesa-fotos { grid-template-columns: repeat(4, 1fr); }
+}
+
+.mesa-foto { margin: 0; }
+
+.mesa-foto__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.mesa-pie {
+  margin-top: clamp(2rem, 5vw, 2.5rem);
+  font-size: 0.92rem;
+  color: var(--tabaco);
 }
 
 /* --- página coaching con caballos --- */
