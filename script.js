@@ -167,6 +167,13 @@
               img.src = fila.valor;
               img.alt = '';
               img.loading = 'lazy';
+              // El placeholder puede pedir una clase para la imagen que lo
+              // reemplaza (por ejemplo, la foto de fondo del hero).
+              var clase = el.getAttribute('data-foto-clase');
+              if (clase) img.className = clase;
+              // Si cuelga de una figura opcional, la figura recién se muestra
+              // ahora que hay algo real para mostrar.
+              var opcional = el.closest ? el.closest('.foto-opcional') : null;
               // El placeholder puede ser un <span> (se reemplaza) o un
               // contenedor .hab-foto (se le vacía y se le mete la imagen).
               if (el.classList.contains('hab-foto')) {
@@ -175,6 +182,7 @@
               } else {
                 el.replaceWith(img);
               }
+              if (opcional) opcional.classList.add('con-foto');
             });
         });
       })

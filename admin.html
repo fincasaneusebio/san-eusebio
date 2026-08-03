@@ -364,9 +364,12 @@
     <section class="seccion-admin" id="secFotos">
       <h2>Fotos del sitio</h2>
       <p class="intro">
-        Subí las fotos de la finca y de cada habitación. Elegí una imagen y se
-        sube sola. Conviene que sean horizontales y no muy pesadas (hasta ~2 MB).
-        Se ven en el sitio al recargar.
+        Subí las fotos de la finca, de cada habitación y de la página de
+        coaching. Elegí una imagen, mirala en la vista previa y confirmá con
+        “Subir esta foto”. Conviene que sean horizontales —salvo la de “En el
+        corral”, que va vertical— y no muy pesadas (hasta ~2 MB). Se ven en el
+        sitio al recargar. Las de coaching son opcionales: mientras no cargues
+        una, esa parte de la página simplemente no aparece.
       </p>
 
       <div class="fotos-grilla" id="fotosGrilla">
@@ -402,6 +405,46 @@
         </div>
         <div class="foto-slot" data-clave="foto_hab_la-huerta">
           <h3>Habitación · La Huerta</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="coaching_hero_foto">
+          <h3>Coaching · Banner de la página</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="coaching_foto_yegua">
+          <h3>Coaching · Las yeguas</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="coaching_foto_sesion">
+          <h3>Coaching · En el corral (vertical)</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="coaching_foto_grupo">
+          <h3>Coaching · La ronda</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
