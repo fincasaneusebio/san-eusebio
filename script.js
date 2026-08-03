@@ -159,6 +159,23 @@
                 el.appendChild(p);
               });
             });
+
+          // Fotos: reemplazan el placeholder por una imagen real.
+          document.querySelectorAll('[data-foto="' + fila.clave + '"]')
+            .forEach(function (el) {
+              var img = document.createElement('img');
+              img.src = fila.valor;
+              img.alt = '';
+              img.loading = 'lazy';
+              // El placeholder puede ser un <span> (se reemplaza) o un
+              // contenedor .hab-foto (se le vacía y se le mete la imagen).
+              if (el.classList.contains('hab-foto')) {
+                el.innerHTML = '';
+                el.appendChild(img);
+              } else {
+                el.replaceWith(img);
+              }
+            });
         });
       })
       .catch(function () { /* si falla, quedan los textos por defecto del HTML */ });

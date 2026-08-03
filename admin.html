@@ -153,6 +153,20 @@
   .ayuda { font-size: 0.82rem; color: var(--tabaco); margin-top: -0.5rem; margin-bottom: 0.5rem; }
 
   .cargando { padding: 3rem; text-align: center; color: var(--tabaco); }
+
+  /* fotos */
+  .fotos-grilla { display: grid; gap: 1.75rem; grid-template-columns: 1fr; max-width: 40rem; }
+  @media (min-width: 34rem) { .fotos-grilla { grid-template-columns: 1fr 1fr; } }
+  .foto-slot { border: 1px solid rgba(var(--tabaco-rgb), 0.25); padding: 1rem; }
+  .foto-slot h3 { font-size: 1.05rem; margin-bottom: 0.7rem; color: var(--colorado); }
+  .foto-preview {
+    aspect-ratio: 4 / 3; background: rgba(var(--tabaco-rgb), 0.1);
+    display: grid; place-items: center; overflow: hidden; margin-bottom: 0.8rem;
+  }
+  .foto-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .foto-preview span { font-size: 0.8rem; color: var(--tabaco); }
+  .foto-slot input[type="file"] { font-size: 0.85rem; width: 100%; }
+  .foto-slot .estado { font-size: 0.8rem; color: var(--tabaco); min-height: 1.3em; margin-top: 0.5rem; }
 </style>
 </head>
 <body>
@@ -193,6 +207,7 @@
     <div class="tabs">
       <button class="tab activo" data-seccion="disponibilidad">Disponibilidad</button>
       <button class="tab" data-seccion="textos">Textos</button>
+      <button class="tab" data-seccion="fotos">Fotos</button>
       <button class="tab" data-seccion="portada">Portada</button>
     </div>
 
@@ -266,6 +281,49 @@
           <button type="button" class="boton" id="btnGuardarTextos">Guardar textos</button>
         </div>
         <p class="guardando" id="guardandoTextos" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------ FOTOS -->
+    <section class="seccion-admin" id="secFotos">
+      <h2>Fotos del sitio</h2>
+      <p class="intro">
+        Subí las fotos de la finca y de cada habitación. Elegí una imagen y se
+        sube sola. Conviene que sean horizontales y no muy pesadas (hasta ~2 MB).
+        Se ven en el sitio al recargar.
+      </p>
+
+      <div class="fotos-grilla" id="fotosGrilla">
+        <div class="foto-slot" data-clave="foto_finca">
+          <h3>La finca</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_hab_la-galeria">
+          <h3>Habitación · La Galería</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_hab_los-olivos">
+          <h3>Habitación · Los Olivos</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_hab_la-huerta">
+          <h3>Habitación · La Huerta</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_hab_el-fondo">
+          <h3>Habitación · El Fondo</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <p class="estado"></p>
+        </div>
       </div>
     </section>
 
@@ -380,12 +438,14 @@
         var sec = t.getAttribute('data-seccion');
         $('secDisponibilidad').classList.toggle('activa', sec === 'disponibilidad');
         $('secTextos').classList.toggle('activa', sec === 'textos');
+        $('secFotos').classList.toggle('activa', sec === 'fotos');
         $('secPortada').classList.toggle('activa', sec === 'portada');
       });
     });
 
     iniciarCalendario();
     iniciarTextos();
+    iniciarFotos();
     cargarHero();
   }
 
@@ -501,6 +561,69 @@
         aviso.textContent = res.error ? 'No se pudo guardar. Probá de nuevo.' : 'Guardado ✓';
       });
     });
+  }
+
+  /* ------------------------------------------------------------- fotos --- */
+  function iniciarFotos() {
+    var slots = document.querySelectorAll('#fotosGrilla .foto-slot');
+
+    // Cargar las fotos ya guardadas (sus URLs viven en 'contenidos').
+    sb.from('contenidos').select('clave, valor').then(function (res) {
+      if (!res || !res.data) return;
+      var mapa = {};
+      res.data.forEach(function (f) { mapa[f.clave] = f.valor; });
+      slots.forEach(function (slot) {
+        var k = slot.getAttribute('data-clave');
+        if (mapa[k]) mostrarPreview(slot, mapa[k]);
+      });
+    });
+
+    slots.forEach(function (slot) {
+      var input = slot.querySelector('input[type="file"]');
+      var estado = slot.querySelector('.estado');
+      var clave = slot.getAttribute('data-clave');
+
+      input.addEventListener('change', function () {
+        var archivo = input.files && input.files[0];
+        if (!archivo) return;
+        estado.textContent = 'Subiendo…';
+
+        // Nombre único para evitar problemas de caché.
+        var ext = (archivo.name.split('.').pop() || 'jpg').toLowerCase();
+        var ruta = clave + '_' + Date.now() + '.' + ext;
+
+        sb.storage.from('fotos').upload(ruta, archivo, {
+          cacheControl: '3600', upsert: true
+        }).then(function (res) {
+          if (res.error) {
+            estado.textContent = 'No se pudo subir. Probá con otra imagen.';
+            return;
+          }
+          var pub = sb.storage.from('fotos').getPublicUrl(ruta);
+          var url = pub && pub.data && pub.data.publicUrl;
+          if (!url) { estado.textContent = 'No se pudo obtener la dirección.'; return; }
+
+          // Guardar la URL en contenidos.
+          sb.from('contenidos').upsert({ clave: clave, valor: url }, { onConflict: 'clave' })
+            .then(function (r2) {
+              if (r2.error) { estado.textContent = 'Se subió, pero no se pudo guardar.'; return; }
+              mostrarPreview(slot, url);
+              estado.textContent = 'Guardado ✓';
+            });
+        }).catch(function () {
+          estado.textContent = 'Hubo un problema al subir.';
+        });
+      });
+    });
+
+    function mostrarPreview(slot, url) {
+      var prev = slot.querySelector('.foto-preview');
+      prev.innerHTML = '';
+      var img = document.createElement('img');
+      img.src = url;
+      img.alt = '';
+      prev.appendChild(img);
+    }
   }
 
   /* ------------------------------------------------------------- hero ---- */
