@@ -192,6 +192,7 @@
   <div class="contenido">
     <div class="tabs">
       <button class="tab activo" data-seccion="disponibilidad">Disponibilidad</button>
+      <button class="tab" data-seccion="textos">Textos</button>
       <button class="tab" data-seccion="portada">Portada</button>
     </div>
 
@@ -217,6 +218,55 @@
         <p class="cal__nota"><span class="cal__muestra" aria-hidden="true"></span> Ocupado (sin disponibilidad)</p>
       </div>
       <p class="guardando" id="guardandoDisp" aria-live="polite"></p>
+    </section>
+
+    <!-- ----------------------------------------------------------- TEXTOS -->
+    <section class="seccion-admin" id="secTextos">
+      <h2>Textos del sitio</h2>
+      <p class="intro">
+        Editá los textos de las secciones. Para los bloques de varios párrafos,
+        dejá una línea en blanco entre párrafo y párrafo. Los cambios se ven en
+        el sitio al guardar.
+      </p>
+
+      <div class="campos-hero" id="camposTextos">
+        <label class="campo">
+          <span>La finca · título</span>
+          <input type="text" data-clave="finca_titulo">
+        </label>
+        <label class="campo">
+          <span>La finca · cuerpo (varios párrafos)</span>
+          <textarea rows="8" data-clave="finca_cuerpo"></textarea>
+        </label>
+
+        <label class="campo">
+          <span>Habitaciones · título</span>
+          <input type="text" data-clave="habitaciones_titulo">
+        </label>
+        <label class="campo">
+          <span>Habitaciones · bajada</span>
+          <textarea rows="3" data-clave="habitaciones_intro"></textarea>
+        </label>
+
+        <label class="campo">
+          <span>Experiencias · título</span>
+          <input type="text" data-clave="experiencias_titulo">
+        </label>
+        <label class="campo">
+          <span>Experiencias · bajada</span>
+          <textarea rows="3" data-clave="experiencias_intro"></textarea>
+        </label>
+
+        <label class="campo">
+          <span>Cómo llegar · título</span>
+          <input type="text" data-clave="comollegar_titulo">
+        </label>
+
+        <div>
+          <button type="button" class="boton" id="btnGuardarTextos">Guardar textos</button>
+        </div>
+        <p class="guardando" id="guardandoTextos" aria-live="polite"></p>
+      </div>
     </section>
 
     <!-- --------------------------------------------------------- PORTADA -->
@@ -329,11 +379,13 @@
         t.classList.add('activo');
         var sec = t.getAttribute('data-seccion');
         $('secDisponibilidad').classList.toggle('activa', sec === 'disponibilidad');
+        $('secTextos').classList.toggle('activa', sec === 'textos');
         $('secPortada').classList.toggle('activa', sec === 'portada');
       });
     });
 
     iniciarCalendario();
+    iniciarTextos();
     cargarHero();
   }
 
@@ -417,6 +469,37 @@
     $('mesSig').addEventListener('click', function () {
       var f = new Date(vista.anio, vista.mes + 1, 1);
       vista = { anio: f.getFullYear(), mes: f.getMonth() }; dibujar();
+    });
+  }
+
+  /* ------------------------------------------------------------ textos --- */
+  function iniciarTextos() {
+    var campos = document.querySelectorAll('#camposTextos [data-clave]');
+
+    // Cargar valores actuales desde la base.
+    sb.from('contenidos').select('clave, valor').then(function (res) {
+      if (!res || !res.data) return;
+      var mapa = {};
+      res.data.forEach(function (f) { mapa[f.clave] = f.valor; });
+      campos.forEach(function (c) {
+        var k = c.getAttribute('data-clave');
+        if (mapa[k] != null) c.value = mapa[k];
+      });
+    });
+
+    $('btnGuardarTextos').addEventListener('click', function () {
+      var aviso = $('guardandoTextos');
+      aviso.textContent = 'Guardando…';
+
+      var filas = [];
+      campos.forEach(function (c) {
+        filas.push({ clave: c.getAttribute('data-clave'), valor: c.value });
+      });
+
+      // upsert de todas las filas de una sola vez.
+      sb.from('contenidos').upsert(filas, { onConflict: 'clave' }).then(function (res) {
+        aviso.textContent = res.error ? 'No se pudo guardar. Probá de nuevo.' : 'Guardado ✓';
+      });
     });
   }
 

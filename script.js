@@ -134,6 +134,36 @@
     if (anio) anio.textContent = new Date().getFullYear();
   }
 
+  /* ==================================================== textos (Supabase) = */
+  function cargarContenidos() {
+    if (!sb) return;
+    sb.from('contenidos').select('clave, valor')
+      .then(function (res) {
+        if (!res || !res.data) return;
+        res.data.forEach(function (fila) {
+          if (fila.valor == null || fila.valor === '') return;
+
+          // Elementos de texto simple (título, intro): se reemplaza el texto.
+          document.querySelectorAll('[data-contenido="' + fila.clave + '"]')
+            .forEach(function (el) { el.textContent = fila.valor; });
+
+          // Bloques de cuerpo: cada línea en blanco separa un párrafo.
+          document.querySelectorAll('[data-contenido-cuerpo="' + fila.clave + '"]')
+            .forEach(function (el) {
+              el.innerHTML = '';
+              fila.valor.split(/\n\s*\n/).forEach(function (parrafo) {
+                var t = parrafo.trim();
+                if (!t) return;
+                var p = document.createElement('p');
+                p.textContent = t;
+                el.appendChild(p);
+              });
+            });
+        });
+      })
+      .catch(function () { /* si falla, quedan los textos por defecto del HTML */ });
+  }
+
   /* ===================================================== hero (Supabase) == */
   function cargarHero() {
     if (!sb) return;
@@ -317,6 +347,7 @@
     seguro('header', activarHeaderYWhatsapp);
     seguro('menu', activarMenu);
     seguro('contacto', completarContacto);
+    seguro('contenidos', cargarContenidos);
     seguro('hero', cargarHero);
     seguro('calendario', activarCalendario);
   }
