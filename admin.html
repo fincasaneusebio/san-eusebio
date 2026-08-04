@@ -353,28 +353,28 @@
         </label>
         <p class="ayuda">Mientras esté vacío, el sitio no muestra ninguna línea de precio.</p>
 
+
         <label class="campo">
-          <span>Habitación 1 · descripción</span>
+          <span>Ajó · descripción</span>
           <textarea rows="2" data-clave="hab_desc_la-galeria" data-defecto=""
                     placeholder="Opcional. Si lo dejás vacío, la ficha muestra solo el nombre y los datos."></textarea>
         </label>
         <label class="campo">
-          <span>Habitación 2 · descripción</span>
-          <textarea rows="2" data-clave="hab_desc_el-molino" data-defecto="" placeholder="Opcional."></textarea>
-        </label>
-        <label class="campo">
-          <span>Habitación 3 · descripción</span>
+          <span>Toto · descripción</span>
           <textarea rows="2" data-clave="hab_desc_la-huerta" data-defecto="" placeholder="Opcional."></textarea>
         </label>
         <label class="campo">
-          <span>Habitación 4 · descripción</span>
+          <span>Cedro Azul · descripción</span>
           <textarea rows="2" data-clave="hab_desc_los-olivos" data-defecto="" placeholder="Opcional."></textarea>
         </label>
         <label class="campo">
-          <span>Habitación 5 · descripción</span>
+          <span>Eucaliptos · descripción</span>
+          <textarea rows="2" data-clave="hab_desc_el-molino" data-defecto="" placeholder="Opcional."></textarea>
+        </label>
+        <label class="campo">
+          <span>Golondrinas · descripción</span>
           <textarea rows="2" data-clave="hab_desc_el-fondo" data-defecto="" placeholder="Opcional."></textarea>
         </label>
-
         <label class="campo">
           <span>Qué incluye · título</span>
           <input type="text" data-clave="incluye_titulo" data-defecto="Qué incluye la estadía">
@@ -458,6 +458,9 @@
           </div>
           <p class="estado"></p>
         </div>
+        <div class="foto-slot" data-clave="foto_hab_la-galeria">
+          <h3>Ajó (suite, baño privado)</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
             <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
@@ -465,6 +468,9 @@
           </div>
           <p class="estado"></p>
         </div>
+        <div class="foto-slot" data-clave="foto_hab_la-huerta">
+          <h3>Toto</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
             <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
@@ -472,6 +478,9 @@
           </div>
           <p class="estado"></p>
         </div>
+        <div class="foto-slot" data-clave="foto_hab_los-olivos">
+          <h3>Cedro Azul</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
             <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
@@ -479,6 +488,19 @@
           </div>
           <p class="estado"></p>
         </div>
+        <div class="foto-slot" data-clave="foto_hab_el-molino">
+          <h3>Eucaliptos</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_hab_el-fondo">
+          <h3>Golondrinas</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
             <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
@@ -526,21 +548,6 @@
           </div>
           <p class="estado"></p>
         </div>
-        <div class="foto-slot" data-clave="foto_hab_la-galeria">
-          <h3>Habitación 1 (suite, baño privado)</h3>
-          <div class="foto-preview"><span>Sin foto</span></div>
-        <div class="foto-slot" data-clave="foto_hab_el-molino">
-          <h3>Habitación 2</h3>
-          <div class="foto-preview"><span>Sin foto</span></div>
-        <div class="foto-slot" data-clave="foto_hab_la-huerta">
-          <h3>Habitación 3</h3>
-          <div class="foto-preview"><span>Sin foto</span></div>
-        <div class="foto-slot" data-clave="foto_hab_los-olivos">
-          <h3>Habitación 4</h3>
-          <div class="foto-preview"><span>Sin foto</span></div>
-        <div class="foto-slot" data-clave="foto_hab_el-fondo">
-          <h3>Habitación 5</h3>
-          <div class="foto-preview"><span>Sin foto</span></div>
         <div class="foto-slot" data-clave="coaching_hero_foto">
           <h3>Coaching · Banner de la página</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
@@ -574,13 +581,6 @@
         <div class="foto-slot" data-clave="coaching_foto_grupo">
           <h3>Coaching · La ronda</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
-          <input type="file" accept="image/*">
-          <div class="foto-acciones">
-            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
-            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
-          </div>
-          <p class="estado"></p>
-        </div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
             <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
