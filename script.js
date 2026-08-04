@@ -206,6 +206,10 @@
   }
 
   /* ================================================ buscador del banner == */
+  /* El botón cambia según lo que se sepa de esas fechas:
+     libres  -> lleva derecho a WhatsApp con el mensaje armado;
+     tomadas -> baja al calendario, que es donde se ve qué días sí hay;
+     sin fechas o sin datos todavía -> baja al calendario también. */
   function activarBuscadorHero() {
     var form = document.getElementById('buscadorHero');
     if (!form) return;
@@ -213,22 +217,52 @@
     var eEntrada = document.getElementById('bhEntrada');
     var eSalida = document.getElementById('bhSalida');
     var ePersonas = document.getElementById('bhPersonas');
+    var boton = form.querySelector('.hero-buscador__boton');
+    var estado = document.getElementById('bhEstado');
 
     // No se pueden pedir fechas pasadas.
     var hoy = aClave(new Date());
     eEntrada.min = hoy;
     eSalida.min = hoy;
 
+    function libre() {
+      return consultarRango ? consultarRango(eEntrada.value, eSalida.value) : null;
+    }
+
+    function repintar() {
+      var r = libre();
+      if (r === true) {
+        boton.textContent = 'Consultar por WhatsApp';
+        boton.classList.add('hero-buscador__boton--libre');
+        estado.textContent = 'Esos días están libres.';
+        estado.className = 'hero-buscador__estado hero-buscador__estado--libre';
+      } else if (r === false) {
+        boton.textContent = 'Ver disponibilidad';
+        boton.classList.remove('hero-buscador__boton--libre');
+        estado.textContent = 'Esos días ya están tomados. Mirá el calendario para elegir otros.';
+        estado.className = 'hero-buscador__estado hero-buscador__estado--ocupado';
+      } else {
+        boton.textContent = 'Ver disponibilidad';
+        boton.classList.remove('hero-buscador__boton--libre');
+        estado.textContent = '';
+        estado.className = 'hero-buscador__estado';
+      }
+    }
+
     // Elegir la entrada corre el piso de la salida: no hay salida anterior.
     eEntrada.addEventListener('change', function () {
-      if (!eEntrada.value) return;
-      eSalida.min = eEntrada.value;
-      if (eSalida.value && eSalida.value <= eEntrada.value) eSalida.value = '';
+      if (eEntrada.value) {
+        eSalida.min = eEntrada.value;
+        if (eSalida.value && eSalida.value <= eEntrada.value) eSalida.value = '';
+      }
+      repintar();
     });
+    eSalida.addEventListener('change', repintar);
 
-    form.addEventListener('submit', function (ev) {
-      ev.preventDefault();
+    // Si la disponibilidad llega después de que ya eligieron, se revisa sola.
+    alCargarDisponibilidad = repintar;
 
+    function bajarAlCalendario() {
       var personas = document.getElementById('personas');
       if (personas && ePersonas.value) personas.value = ePersonas.value;
       if (precargarFechas) precargarFechas(eEntrada.value, eSalida.value);
@@ -238,13 +272,38 @@
         var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         destino.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'start' });
       }
-
-      // El foco va al nombre, que es lo único que todavía falta completar.
       setTimeout(function () {
         var nombre = document.getElementById('nombre');
         if (nombre) nombre.focus({ preventScroll: true });
       }, 700);
+    }
+
+    function irAWhatsapp() {
+      if (!CFG.whatsapp) { bajarAlCalendario(); return; }
+      var n = nochesEntre(eEntrada.value, eSalida.value).length;
+      var personas = ePersonas.value || '2';
+      var lineas = [
+        'Hola! Queria consultar por una estadia en San Eusebio.',
+        '',
+        'Entrada: ' + enCastellano(eEntrada.value),
+        'Salida: ' + enCastellano(eSalida.value),
+        n + (n === 1 ? ' noche' : ' noches') + ' - ' + personas +
+          (personas === '1' ? ' persona' : ' personas')
+      ];
+      var url = 'https://wa.me/' + CFG.whatsapp + '?text=' +
+        encodeURIComponent(lineas.join('\n'));
+      var v = window.open(url, '_blank', 'noopener,noreferrer');
+      // Si el navegador bloqueó la ventana, al menos que quede el calendario.
+      if (!v) bajarAlCalendario();
+    }
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (libre() === true) irAWhatsapp();
+      else bajarAlCalendario();
     });
+
+    repintar();
   }
 
   /* ================================================ profundidad al scroll = */
@@ -473,6 +532,15 @@
      dejar las fechas ya elegidas abajo. */
   var precargarFechas = null;
 
+  /* Le contesta al buscador del banner si un rango está libre. Devuelve null
+     mientras la disponibilidad todavía no llegó de la base: en ese caso no se
+     promete nada y se manda al calendario. */
+  var consultarRango = null;
+
+  /* Avisa al buscador cuando la disponibilidad terminó de cargar, para que
+     revise las fechas que la persona ya haya elegido. */
+  var alCargarDisponibilidad = null;
+
   function activarCalendario() {
     var grilla = document.getElementById('grillaDias');
     if (!grilla) return;
@@ -481,6 +549,7 @@
     var ocupadas = {};
     var vista = { anio: new Date().getFullYear(), mes: new Date().getMonth() };
     var entrada = null, salida = null;
+    var disponibilidadCargada = false;
 
     var etiqueta = document.getElementById('etiquetaMes');
     var resumen = document.getElementById('resumen');
@@ -502,8 +571,10 @@
           .then(function (res) {
             if (res && res.data) {
               res.data.forEach(function (r) { ocupadas[r.fecha] = true; });
-              dibujar();
             }
+            disponibilidadCargada = true;
+            dibujar();
+            if (alCargarDisponibilidad) alCargarDisponibilidad();
           })
           .catch(function () { });
       });
@@ -553,6 +624,12 @@
       }
       actualizarResumen();
     }
+
+    consultarRango = function (e, sal) {
+      if (!e || !sal || sal <= e) return null;
+      if (!disponibilidadCargada) return null;
+      return !rangoPisaOcupada(e, sal);
+    };
 
     precargarFechas = function (e, sal) {
       if (!e) return;

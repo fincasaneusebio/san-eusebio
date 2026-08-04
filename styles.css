@@ -468,8 +468,27 @@ p {
   background: var(--ambar);
 }
 
+/* Cuando las fechas están libres el botón deja de ser neutro: pasa a ámbar,
+   que es el color con el que la página marca lo que se puede hacer ahora. */
+.hero-buscador__boton--libre {
+  background: var(--ambar);
+  color: #2b1f08;
+}
+
+.hero-buscador__estado:empty { display: none; }
+
+.hero-buscador__estado {
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  color: rgba(var(--lino-rgb), 0.8);
+}
+
+.hero-buscador__estado--libre { color: var(--ambar); }
+
+.hero-buscador__estado--ocupado { color: rgba(var(--lino-rgb), 0.78); }
+
 .hero-buscador__pie {
-  margin-top: 0.85rem;
+  margin-top: 0.5rem;
   font-size: 0.76rem;
   color: rgba(var(--lino-rgb), 0.6);
 }
