@@ -188,8 +188,10 @@
               var clase = el.getAttribute('data-foto-clase');
               if (clase) img.className = clase;
               // Si cuelga de una figura opcional, la figura recién se muestra
-              // ahora que hay algo real para mostrar.
+              // ahora que hay algo real para mostrar. Lo mismo con el grupo
+              // que la contiene: sin ninguna foto, no ocupa lugar.
               var opcional = el.closest ? el.closest('.foto-opcional') : null;
+              var grupo = el.closest ? el.closest('.grupo-opcional') : null;
               // El placeholder puede ser un <span> (se reemplaza) o un
               // contenedor .hab-foto (se le vacía y se le mete la imagen).
               if (el.classList.contains('hab-foto')) {
@@ -199,6 +201,7 @@
                 el.replaceWith(img);
               }
               if (opcional) opcional.classList.add('con-foto');
+              if (grupo) grupo.classList.add('con-foto');
             });
         });
       })

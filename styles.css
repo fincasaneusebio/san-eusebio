@@ -24,7 +24,7 @@
   --body: 'Lora', Georgia, serif;
 
   /* Ritmo vertical. El aire es parte de la marca: no achicar sin motivo. */
-  --seccion-y: clamp(4.5rem, 11vw, 9rem);
+  --seccion-y: clamp(3.5rem, 8vw, 6.5rem);
   --borde-x: clamp(1.25rem, 5vw, 4rem);
   --ancho: 1180px;
   --ancho-texto: 62ch;
@@ -754,6 +754,8 @@ p {
   color: var(--tabaco);
 }
 
+.hab-descripcion:empty { display: none; }
+
 .hab-descripcion {
   margin-top: 0.9rem;
   color: rgba(var(--tinta-rgb), 0.86);
@@ -1346,8 +1348,15 @@ a.exp-enlace:hover {
 
 /* Las fotos de los platos son opcionales: la grilla aparece recién cuando
    hay alguna cargada, y se acomoda a las que haya. */
-.mesa-fotos {
+/* Sin ninguna foto cargada, el grupo entero desaparece: si solo se ocultaran
+   las figuras, el contenedor seguía aportando su margen y quedaba un hueco. */
+.grupo-opcional { display: none; }
+
+.mesa-fotos.con-foto {
   display: grid;
+}
+
+.mesa-fotos {
   gap: clamp(0.75rem, 2vw, 1.25rem);
   grid-template-columns: repeat(2, 1fr);
   margin-top: clamp(2.5rem, 6vw, 3.5rem);
