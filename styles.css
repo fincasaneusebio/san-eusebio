@@ -24,7 +24,7 @@
   --body: 'Lora', Georgia, serif;
 
   /* Ritmo vertical. El aire es parte de la marca: no achicar sin motivo. */
-  --seccion-y: clamp(3.5rem, 8vw, 6.5rem);
+  --seccion-y: clamp(3rem, 6.5vw, 5.5rem);
   --borde-x: clamp(1.25rem, 5vw, 4rem);
   --ancho: 1180px;
   --ancho-texto: 62ch;
@@ -964,7 +964,7 @@ p {
 
 
 .hab-encabezado {
-  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: clamp(2rem, 4.5vw, 3rem);
 }
 
 /* Precio orientativo. Nace vacío: si el panel no tiene nada cargado, no se
@@ -1025,14 +1025,16 @@ p {
 @media (min-width: 52rem) {
   .hab-item--destacada {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
     gap: clamp(2rem, 4vw, 3rem);
     align-items: center;
   }
 
+  /* La foto manda y el texto es su pie: con la descripción vacía, una columna
+     de texto ancha al lado de la foto quedaba flotando en el aire. */
   .hab-item--destacada .hab-foto {
     margin-bottom: 0;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
   }
 
   .hab-item--destacada .hab-nombre {
@@ -1089,7 +1091,7 @@ p {
 
 
 .exp-encabezado {
-  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: clamp(2rem, 4.5vw, 3rem);
 }
 
 .exp-lista {
@@ -1130,7 +1132,7 @@ a.exp-enlace:hover {
 
 .exp-texto {
   margin-top: 0.7rem;
-  max-width: 52ch;
+  max-width: 62ch;
   color: rgba(var(--lino-rgb), 0.82);
 }
 
@@ -1208,7 +1210,7 @@ a.exp-enlace:hover {
 
 
 .con-encabezado {
-  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: clamp(2rem, 4.5vw, 3rem);
 }
 
 .con-panel {
@@ -1699,8 +1701,25 @@ a.exp-enlace:hover {
 
 @media (min-width: 48rem) {
   .incluye__fila {
-    grid-template-columns: 13rem minmax(0, 1fr);
+    grid-template-columns: 11rem minmax(0, 1fr);
     align-items: baseline;
+  }
+}
+
+/* En pantallas anchas las seis filas se acomodan en dos columnas de tres.
+   En una sola columna, el renglón corto de "Bebidas" dejaba un hueco enorme. */
+@media (min-width: 68rem) {
+  .incluye {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(2.5rem, 5vw, 4.5rem);
+    border-top: 0;
+  }
+
+  .incluye__fila {
+    grid-template-columns: 1fr;
+    border-top: 1px solid rgba(var(--tabaco-rgb), 0.24);
+    border-bottom: 0;
   }
 }
 
@@ -1734,6 +1753,15 @@ a.exp-enlace:hover {
   gap: 0;
   border-top: 1px solid rgba(var(--tabaco-rgb), 0.22);
   max-width: 46rem;
+}
+
+@media (min-width: 48rem) {
+  /* Cuatro platos en una sola columna dejaban medio ancho vacío. */
+  .mesa-menu {
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(2rem, 5vw, 4rem);
+    max-width: none;
+  }
 }
 
 .mesa-menu li {
