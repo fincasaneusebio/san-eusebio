@@ -140,18 +140,18 @@
     if (!plano) return;
 
     var LUGARES = [
-      { coord: '01 · Cinco habitaciones', nombre: 'La casa de en frente',
-        desc: 'Las cinco habitaciones y la galería que recorre todo el frente. Es la casa que se ofrece.',
-        chip: 'La casa', ir: 'Ver habitaciones →', href: '#habitaciones' },
-      { coord: '02 · Privada', nombre: 'La casa de Flor',
+      { coord: '01 · Privada', nombre: 'La casa',
         desc: 'Donde vive Flor. No se ofrece, pero está a cincuenta metros: por eso siempre hay alguien.',
-        chip: 'Casa de Flor' },
+        chip: 'La casa' },
+      { coord: '02 · Cinco habitaciones', nombre: 'La casa de en frente',
+        desc: 'Las cinco habitaciones y la galería que recorre todo el frente. Es la casa que se ofrece.',
+        chip: 'La casa de en frente', ir: 'Ver habitaciones →', href: '#habitaciones' },
       { coord: '03 · Referencia del casco', nombre: 'El molino',
-        desc: 'El que le da nombre a una de las habitaciones. Se ve desde la galería.',
-        chip: 'El molino', ir: 'Ver El Molino →', href: '#habitaciones' },
-      { coord: '04 · Frutos de estación', nombre: 'La huerta',
-        desc: 'De acá sale la fruta del desayuno y buena parte de lo que se cocina a la noche.',
-        chip: 'La huerta', ir: 'Ver la mesa →', href: '#la-mesa' },
+        desc: 'En el medio del parque, entre las dos casas. Se ve desde casi cualquier punto de la finca.',
+        chip: 'El molino' },
+      { coord: '04 · Lo que da la temporada', nombre: 'La huerta',
+        desc: 'Es chica, la de la casa. Se junta lo que esté maduro y se hacen dulces de estación con eso.',
+        chip: 'La huerta', ir: 'Ver experiencias →', href: '#experiencias' },
       { coord: '05 · Cosecha en marzo', nombre: 'El olivar',
         desc: 'La línea de árboles del fondo. En marzo se escucha la cosecha desde el casco.',
         chip: 'El olivar', ir: 'Ver experiencias →', href: '#experiencias' }
