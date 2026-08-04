@@ -134,6 +134,77 @@
     if (anio) anio.textContent = new Date().getFullYear();
   }
 
+  /* ==================================================== plano de la finca = */
+  function activarPlano() {
+    var plano = document.getElementById('plano');
+    if (!plano) return;
+
+    var LUGARES = [
+      { coord: '01 · Cinco habitaciones', nombre: 'La casa de en frente',
+        desc: 'Las cinco habitaciones y la galería que recorre todo el frente. Es la casa que se ofrece.',
+        chip: 'La casa', ir: 'Ver habitaciones →', href: '#habitaciones' },
+      { coord: '02 · Privada', nombre: 'La casa de Flor',
+        desc: 'Donde vive Flor. No se ofrece, pero está a cincuenta metros: por eso siempre hay alguien.',
+        chip: 'Casa de Flor' },
+      { coord: '03 · Referencia del casco', nombre: 'El molino',
+        desc: 'El que le da nombre a una de las habitaciones. Se ve desde la galería.',
+        chip: 'El molino', ir: 'Ver El Molino →', href: '#habitaciones' },
+      { coord: '04 · Frutos de estación', nombre: 'La huerta',
+        desc: 'De acá sale la fruta del desayuno y buena parte de lo que se cocina a la noche.',
+        chip: 'La huerta', ir: 'Ver la mesa →', href: '#la-mesa' },
+      { coord: '05 · Cosecha en marzo', nombre: 'El olivar',
+        desc: 'La línea de árboles del fondo. En marzo se escucha la cosecha desde el casco.',
+        chip: 'El olivar', ir: 'Ver experiencias →', href: '#experiencias' }
+    ];
+
+    var puntos = [].slice.call(plano.querySelectorAll('.plano__punto'));
+    var tira = document.getElementById('planoTira');
+    var elegido = 0;
+
+    var chips = LUGARES.map(function (l, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'plano__chip';
+      b.textContent = l.chip;
+      b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+      b.addEventListener('click', function () { elegir(i, true); });
+      tira.appendChild(b);
+      return b;
+    });
+
+    function pintar(i) {
+      var l = LUGARES[i];
+      document.getElementById('planoCoord').textContent = l.coord;
+      document.getElementById('planoNombre').textContent = l.nombre;
+      document.getElementById('planoDesc').textContent = l.desc;
+      var ir = document.getElementById('planoIr');
+      // No todos los puntos llevan a algún lado: el de la casa de Flor solo cuenta.
+      if (l.href) { ir.hidden = false; ir.href = l.href; ir.textContent = l.ir; }
+      else { ir.hidden = true; }
+    }
+
+    function elegir(i, fijar) {
+      pintar(i);
+      if (fijar) elegido = i;
+      puntos.forEach(function (p, j) { p.setAttribute('aria-pressed', String(j === i)); });
+      chips.forEach(function (c, j) { c.setAttribute('aria-pressed', String(j === i)); });
+      if (fijar && chips[i].scrollIntoView) {
+        chips[i].scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+      }
+    }
+
+    puntos.forEach(function (p, i) {
+      p.addEventListener('click', function () { elegir(i, true); });
+      // Con mouse se puede espiar sin elegir; al salir vuelve al que estaba.
+      p.addEventListener('mouseenter', function () { elegir(i, false); });
+      p.addEventListener('focus', function () { elegir(i, false); });
+      p.addEventListener('mouseleave', function () { elegir(elegido, false); });
+      p.addEventListener('blur', function () { elegir(elegido, false); });
+    });
+
+    elegir(0, true);
+  }
+
   /* ================================================ buscador del banner == */
   function activarBuscadorHero() {
     var form = document.getElementById('buscadorHero');
@@ -287,6 +358,9 @@
               // que la contiene: sin ninguna foto, no ocupa lugar.
               var opcional = el.closest ? el.closest('.foto-opcional') : null;
               var grupo = el.closest ? el.closest('.grupo-opcional') : null;
+              // Ojo: hay que buscar los ancestros ANTES de reemplazar el
+              // placeholder. Después ya salió del documento y closest da null.
+              var plano = el.closest ? el.closest('.plano') : null;
               // El placeholder puede ser un <span> (se reemplaza) o un
               // contenedor .hab-foto (se le vacía y se le mete la imagen).
               if (el.classList.contains('hab-foto')) {
@@ -297,6 +371,7 @@
               }
               if (opcional) opcional.classList.add('con-foto');
               if (grupo) grupo.classList.add('con-foto');
+              if (plano) plano.classList.add('con-foto');
             });
         });
       })
@@ -554,6 +629,7 @@
     seguro('contenidos', cargarContenidos);
     seguro('hero', cargarHero);
     seguro('calendario', activarCalendario);
+    seguro('plano', activarPlano);
     seguro('buscadorHero', activarBuscadorHero);
     seguro('profundidad', activarProfundidad);
   }

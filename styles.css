@@ -206,6 +206,187 @@ p {
   transform: scaleX(1);
 }
 
+/* ------------------------------------------------ el plano de la finca --- */
+/* La foto aérea deja de ser una imagen y pasa a ser el índice del sitio: cada
+   punto lleva a la sección que le corresponde. Funciona igual con mouse, con
+   dedo y con teclado, y la lista de abajo repite lo mismo por si alguien no
+   descubre que la foto se toca. */
+.plano {
+  margin: 0;
+}
+
+.plano__consigna {
+  margin-bottom: 1.1rem;
+  font-size: 0.92rem;
+  color: rgba(var(--tinta-rgb), 0.7);
+}
+
+.plano__consignaRotulo {
+  display: block;
+  font-family: var(--body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tabaco);
+  margin-bottom: 0.4rem;
+}
+
+.plano__lienzo {
+  position: relative;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.plano__img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.plano__puntos {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s var(--ease);
+}
+
+/* Los puntos aparecen recién cuando hay foto debajo. */
+.plano.con-foto .plano__puntos {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* El disco se ve de 18px pero el área que responde al toque es de 44: es el
+   mínimo para no errarle con el dedo. */
+.plano__punto {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.plano__disco {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--lino);
+  background: rgba(217, 154, 43, 0.55);
+  display: grid;
+  place-items: center;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #2b1f08;
+  box-shadow: 0 1px 8px rgba(36, 31, 24, 0.5);
+  transition: transform 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.plano__punto[aria-pressed="true"] .plano__disco,
+.plano__punto:hover .plano__disco {
+  transform: scale(1.6);
+  background: var(--ambar);
+}
+
+.plano__punto:focus-visible {
+  outline: 2px solid var(--ambar);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.plano__tira {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.9rem 0;
+  background: var(--verde);
+  padding-inline: clamp(1rem, 3vw, 1.5rem);
+  scrollbar-width: none;
+}
+
+.plano__tira::-webkit-scrollbar { display: none; }
+
+.plano__chip {
+  flex: 0 0 auto;
+  font-family: var(--body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(var(--lino-rgb), 0.32);
+  border-radius: 2rem;
+  background: none;
+  color: rgba(var(--lino-rgb), 0.75);
+  cursor: pointer;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.plano__chip[aria-pressed="true"] {
+  background: var(--ambar);
+  border-color: var(--ambar);
+  color: #2b1f08;
+  font-weight: 600;
+}
+
+.plano__chip:focus-visible { outline: 2px solid var(--ambar); outline-offset: 2px; }
+
+.plano__ficha {
+  background: var(--verde);
+  color: var(--lino);
+  padding: 0 clamp(1rem, 3vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
+}
+
+.plano__coord {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ambar);
+  margin-bottom: 0.4rem;
+}
+
+.plano__nombre {
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  line-height: 1.15;
+  margin-bottom: 0.45rem;
+}
+
+.plano__desc {
+  font-size: 0.95rem;
+  color: rgba(var(--lino-rgb), 0.76);
+  max-width: 56ch;
+  margin-bottom: 1.1rem;
+}
+
+.plano__ir {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lino);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ambar);
+  padding-bottom: 0.3rem;
+  transition: color 0.3s var(--ease);
+}
+
+.plano__ir:hover, .plano__ir:focus-visible { color: var(--ambar); }
+.plano__ir[hidden] { display: none; }
+
+.plano .intro-pie:empty { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .plano__disco { transition: none; }
+}
+
 /* ------------------------------------------- buscador rápido del banner --- */
 /* No es un motor de reservas y no finge serlo: junta las fechas y baja al
    calendario real, donde se ve la disponibilidad. Por eso el botón dice
