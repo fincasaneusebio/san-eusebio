@@ -134,6 +134,78 @@
     if (anio) anio.textContent = new Date().getFullYear();
   }
 
+  /* ================================================ buscador del banner == */
+  function activarBuscadorHero() {
+    var form = document.getElementById('buscadorHero');
+    if (!form) return;
+
+    var eEntrada = document.getElementById('bhEntrada');
+    var eSalida = document.getElementById('bhSalida');
+    var ePersonas = document.getElementById('bhPersonas');
+
+    // No se pueden pedir fechas pasadas.
+    var hoy = aClave(new Date());
+    eEntrada.min = hoy;
+    eSalida.min = hoy;
+
+    // Elegir la entrada corre el piso de la salida: no hay salida anterior.
+    eEntrada.addEventListener('change', function () {
+      if (!eEntrada.value) return;
+      eSalida.min = eEntrada.value;
+      if (eSalida.value && eSalida.value <= eEntrada.value) eSalida.value = '';
+    });
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+
+      var personas = document.getElementById('personas');
+      if (personas && ePersonas.value) personas.value = ePersonas.value;
+      if (precargarFechas) precargarFechas(eEntrada.value, eSalida.value);
+
+      var destino = document.getElementById('consultar');
+      if (destino) {
+        var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        destino.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'start' });
+      }
+
+      // El foco va al nombre, que es lo único que todavía falta completar.
+      setTimeout(function () {
+        var nombre = document.getElementById('nombre');
+        if (nombre) nombre.focus({ preventScroll: true });
+      }, 700);
+    });
+  }
+
+  /* ================================================ profundidad al scroll = */
+  function activarProfundidad() {
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fondo = document.querySelector('.hero-fondo');
+    var contenido = document.querySelector('.hero-contenido');
+    if (quieto || !fondo || !contenido) return;
+
+    var pendiente = false;
+
+    function pintar() {
+      pendiente = false;
+      var alto = window.innerHeight;
+      var y = window.scrollY || window.pageYOffset;
+      // Fuera del banner no hay nada que calcular.
+      if (y > alto) return;
+      var avance = Math.min(y / alto, 1);
+      fondo.style.transform = 'scale(' + (1 + avance * 0.08).toFixed(4) + ')';
+      contenido.style.transform = 'translate3d(0,' + (-avance * 60).toFixed(1) + 'px,0)';
+      contenido.style.opacity = String(Math.max(0, 1 - avance * 1.6));
+    }
+
+    window.addEventListener('scroll', function () {
+      if (pendiente) return;
+      pendiente = true;
+      window.requestAnimationFrame(pintar);
+    }, { passive: true });
+
+    pintar();
+  }
+
   /* ==================================================== textos (Supabase) = */
   function cargarContenidos() {
     if (!sb) return;
@@ -322,6 +394,10 @@
   }
 
   /* ======================================================= calendario ===== */
+  /* Lo deja listo activarCalendario para que el buscador del banner pueda
+     dejar las fechas ya elegidas abajo. */
+  var precargarFechas = null;
+
   function activarCalendario() {
     var grilla = document.getElementById('grillaDias');
     if (!grilla) return;
@@ -403,6 +479,15 @@
       actualizarResumen();
     }
 
+    precargarFechas = function (e, sal) {
+      if (!e) return;
+      entrada = e;
+      salida = (sal && sal > e && !rangoPisaOcupada(e, sal)) ? sal : null;
+      var f = new Date(e + 'T00:00:00');
+      if (!isNaN(f)) vista = { anio: f.getFullYear(), mes: f.getMonth() };
+      dibujar();
+    };
+
     grilla.addEventListener('click', function (e) {
       var b = e.target && e.target.closest ? e.target.closest('button') : null;
       if (!b || b.disabled) return;
@@ -469,6 +554,8 @@
     seguro('contenidos', cargarContenidos);
     seguro('hero', cargarHero);
     seguro('calendario', activarCalendario);
+    seguro('buscadorHero', activarBuscadorHero);
+    seguro('profundidad', activarProfundidad);
   }
 
   if (document.readyState === 'loading') {

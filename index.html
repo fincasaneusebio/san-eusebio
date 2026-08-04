@@ -71,6 +71,23 @@
       </div>
       <p class="hero-lema">El campo, sin apuro.</p>
       <p class="hero-lugar">Hostería de campo y olivares · De la Canal, Tandil</p>
+
+      <form class="hero-buscador" id="buscadorHero" aria-label="Consultar disponibilidad">
+        <label class="hero-buscador__campo">
+          <span>Entrada</span>
+          <input type="date" id="bhEntrada" required>
+        </label>
+        <label class="hero-buscador__campo">
+          <span>Salida</span>
+          <input type="date" id="bhSalida" required>
+        </label>
+        <label class="hero-buscador__campo hero-buscador__campo--angosto">
+          <span>Personas</span>
+          <input type="number" id="bhPersonas" min="1" max="11" value="2">
+        </label>
+        <button type="submit" class="hero-buscador__boton">Ver disponibilidad</button>
+      </form>
+      <p class="hero-buscador__pie">Te lleva al calendario. La consulta la sigue una persona por WhatsApp.</p>
     </div>
 
     <a href="#la-finca" class="hero-bajar">
@@ -349,7 +366,7 @@
           <div class="con-fila">
             <label class="con-campo">
               <span>Personas</span>
-              <input type="number" id="personas" min="1" max="14" value="2">
+              <input type="number" id="personas" min="1" max="11" value="2">
             </label>
             <label class="con-campo">
               <span>Teléfono o mail</span>
