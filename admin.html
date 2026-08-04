@@ -210,6 +210,16 @@
     font-size: 0.92rem; color: var(--tabaco);
   }
   .previa__vacio { color: rgba(var(--tinta-rgb), 0.35); font-style: italic; }
+  .previa__filas { margin: 1rem 0 0; border-top: 1px solid rgba(var(--tabaco-rgb), 0.18); }
+  .previa__filas dt {
+    font-family: var(--display); font-size: 1.02rem; color: var(--colorado);
+    padding-top: 0.75rem;
+  }
+  .previa__filas dd {
+    margin: 0 0 0.75rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(var(--tabaco-rgb), 0.18);
+    color: rgba(var(--tinta-rgb), 0.8); font-size: 0.95rem;
+  }
   .previa__lista { list-style: none; padding: 0; margin-top: 1rem; }
   .previa__lista li {
     font-family: var(--display); font-size: 1.05rem; padding-block: 0.55rem;
@@ -319,7 +329,7 @@
         </label>
         <label class="campo">
           <span>La finca · cuerpo (varios párrafos)</span>
-          <textarea rows="8" data-clave="finca_cuerpo" data-defecto="San Eusebio no es un hotel con paisaje alrededor. Es una finca en actividad: hay olivos que se cosechan, una huerta que da lo que da según el mes, caballos que trabajan y una casa que se abrió para recibir gente.&#10;&#10;El casco tiene dos casas. En una vive la familia; la otra es la que se ofrece, con seis habitaciones, cocina casera y una galería larga donde termina cayendo todo el mundo a la tarde.&#10;&#10;Estamos a media hora de Tandil por camino de tierra. Esa media hora es parte de la propuesta: cuando llegás, ya bajaste un cambio."></textarea>
+          <textarea rows="8" data-clave="finca_cuerpo" data-defecto="San Eusebio no es un hotel con paisaje alrededor. Es una finca en actividad: hay olivos y viñas que se cosechan, una huerta que da lo que da según el mes, caballos que trabajan y una casa que se abrió para recibir gente.&#10;&#10;El casco tiene dos casas. En una vive Flor; la otra es la que se ofrece, con cinco habitaciones y una galería larga.&#10;&#10;Estamos a media hora de Tandil por camino de tierra."></textarea>
         </label>
 
         <label class="campo">
@@ -339,7 +349,7 @@
         <label class="campo">
           <span>Habitaciones · precio orientativo</span>
           <input type="text" data-clave="habitaciones_precio" data-defecto=""
-                 placeholder="Ej.: Desde $85.000 la noche por habitación, con desayuno y cena incluidos.">
+                 placeholder="Ej.: Desde $85.000 la noche por habitación, con desayuno incluido.">
         </label>
         <p class="ayuda">Mientras esté vacío, el sitio no muestra ninguna línea de precio.</p>
 
@@ -366,12 +376,26 @@
         </label>
 
         <label class="campo">
+          <span>Qué incluye · título</span>
+          <input type="text" data-clave="incluye_titulo" data-defecto="Qué incluye la estadía">
+        </label>
+        <label class="campo">
+          <span>Qué incluye · bajada</span>
+          <textarea rows="2" data-clave="incluye_intro" data-defecto="Lo que entra en el precio y lo que se cobra aparte, dicho antes de que lo preguntes."></textarea>
+        </label>
+        <label class="campo">
+          <span>Qué incluye · filas</span>
+          <textarea rows="9" data-clave="incluye_filas" data-defecto="Alojamiento | Cinco habitaciones en la casa de en frente: una suite con baño privado y cuatro con baño compartido. Capacidad total, 11 personas.&#10;Ropa blanca | Sábanas y toallas de calidad en todas las habitaciones.&#10;Desayuno | Incluido en la tarifa de todas las habitaciones.&#10;Cena | Optativa, en modalidad media pensión, con la cocina de nuestro chef. Se sirve en la casa principal.&#10;Bebidas | Se cobran aparte.&#10;Zonas comunes | Casona centenaria, viñedos y olivares, pileta con solárium y estufa a leña."></textarea>
+        </label>
+        <p class="ayuda">Una fila por línea, con una barra vertical separando el título de la explicación. Por ejemplo: <code>Desayuno | Incluido en la tarifa.</code></p>
+
+        <label class="campo">
           <span>La mesa · título</span>
-          <input type="text" data-clave="mesa_titulo" data-defecto="La cena, todas las noches">
+          <input type="text" data-clave="mesa_titulo" data-defecto="La cena del chef">
         </label>
         <label class="campo">
           <span>La mesa · bajada</span>
-          <textarea rows="3" data-clave="mesa_intro" data-defecto="Está incluida en la estadía y la hace nuestro chef. El menú cambia con la temporada y con lo que haya en la huerta ese día."></textarea>
+          <textarea rows="3" data-clave="mesa_intro" data-defecto="Es optativa: se suma a la tarifa como media pensión y se sirve en la casa principal. El menú cambia con la temporada y con lo que haya en la huerta ese día."></textarea>
         </label>
         <label class="campo">
           <span>La mesa · platos (uno por línea)</span>
@@ -379,7 +403,7 @@
         </label>
         <label class="campo">
           <span>La mesa · aclaración final</span>
-          <input type="text" data-clave="mesa_pie" data-defecto="Si hay alguna dieta especial, avisanos al reservar y lo resolvemos.">
+          <input type="text" data-clave="mesa_pie" data-defecto="Las bebidas se cobran aparte. Si hay alguna dieta especial, avisanos al reservar y lo resolvemos.">
         </label>
 
         <label class="campo">
@@ -795,6 +819,8 @@
       { rotulo: 'La finca',      titulo: 'finca_titulo',        cuerpo: 'finca_cuerpo',
         pie: 'finca_pie' },
       { rotulo: 'Habitaciones',  titulo: 'habitaciones_titulo', bajada: 'habitaciones_intro' },
+      { rotulo: 'Qué incluye',   titulo: 'incluye_titulo',      bajada: 'incluye_intro',
+        filas: 'incluye_filas' },
       { rotulo: 'La mesa',       titulo: 'mesa_titulo',         bajada: 'mesa_intro',
         items: 'mesa_platos',      pie: 'mesa_pie' },
       { rotulo: 'Experiencias',  titulo: 'experiencias_titulo', bajada: 'experiencias_intro' },
@@ -866,6 +892,22 @@
             cuerpo.appendChild(v);
           }
           bloque.appendChild(cuerpo);
+        }
+
+        if (b.filas) {
+          var tabla = document.createElement('dl');
+          tabla.className = 'previa__filas';
+          valor(b.filas).split('\n').forEach(function (t) {
+            var corte = t.indexOf('|');
+            if (corte <= 0) return;
+            var dt = document.createElement('dt');
+            dt.textContent = t.slice(0, corte).trim();
+            var dd = document.createElement('dd');
+            dd.textContent = t.slice(corte + 1).trim();
+            tabla.appendChild(dt);
+            tabla.appendChild(dd);
+          });
+          if (tabla.children.length) bloque.appendChild(tabla);
         }
 
         if (b.items) {

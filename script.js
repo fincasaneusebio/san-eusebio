@@ -160,6 +160,29 @@
               });
             });
 
+          // Filas de "etiqueta | explicación", una por línea. Un solo campo
+          // en el panel maneja toda la lista de qué incluye la tarifa.
+          document.querySelectorAll('[data-contenido-filas="' + fila.clave + '"]')
+            .forEach(function (el) {
+              var filas = fila.valor.split('\n')
+                .map(function (t) { return t.trim(); })
+                .filter(function (t) { return t.indexOf('|') > 0; });
+              if (!filas.length) return;
+              el.innerHTML = '';
+              filas.forEach(function (t) {
+                var corte = t.indexOf('|');
+                var caja = document.createElement('div');
+                caja.className = 'incluye__fila';
+                var dt = document.createElement('dt');
+                dt.textContent = t.slice(0, corte).trim();
+                var dd = document.createElement('dd');
+                dd.textContent = t.slice(corte + 1).trim();
+                caja.appendChild(dt);
+                caja.appendChild(dd);
+                el.appendChild(caja);
+              });
+            });
+
           // Listas: cada línea es un ítem. Sirve para el menú, que va a
           // crecer, sin que haga falta tocar el HTML cada vez.
           document.querySelectorAll('[data-contenido-items="' + fila.clave + '"]')

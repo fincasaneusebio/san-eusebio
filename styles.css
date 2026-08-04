@@ -1223,6 +1223,8 @@ a.exp-enlace:hover {
   border-bottom-color: var(--ambar);
 }
 
+/* Última línea: el crédito del cliente a la izquierda y la firma de autor a
+   la derecha. En pantallas chicas se apilan. */
 .ft-credito {
   max-width: var(--ancho);
   margin: clamp(2.5rem, 6vw, 4rem) auto 0;
@@ -1230,6 +1232,33 @@ a.exp-enlace:hover {
   border-top: 1px solid rgba(var(--lino-rgb), 0.2);
   font-size: 0.76rem;
   color: rgba(var(--lino-rgb), 0.55);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.ft-firma {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(var(--lino-rgb), 0.4);
+}
+
+.ft-firma__marca {
+  color: rgba(var(--lino-rgb), 0.72);
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--lino-rgb), 0.3);
+  padding-bottom: 0.15em;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.ft-firma__marca:hover,
+.ft-firma__marca:focus-visible {
+  color: var(--lino);
+  border-color: var(--ambar);
 }
 
 
@@ -1325,6 +1354,49 @@ a.exp-enlace:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .hd-logo .logo-oscuro { transition: none; }
+}
+
+/* ------------------------------------------------- qué incluye la tarifa --- */
+/* Etiqueta y explicación, con una hairline por fila. Mismo ritmo que la lista
+   de experiencias, para que se lean como parientes. */
+.incluye {
+  margin: 0;
+  border-top: 1px solid rgba(var(--tabaco-rgb), 0.24);
+}
+
+.incluye__fila {
+  display: grid;
+  gap: 0.35rem 2.5rem;
+  padding-block: clamp(1.1rem, 2.5vw, 1.5rem);
+  border-bottom: 1px solid rgba(var(--tabaco-rgb), 0.24);
+}
+
+@media (min-width: 48rem) {
+  .incluye__fila {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    align-items: baseline;
+  }
+}
+
+.incluye dt {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--colorado);
+}
+
+.incluye dd {
+  margin: 0;
+  color: rgba(var(--tinta-rgb), 0.82);
+  max-width: 58ch;
+}
+
+/* La suite se distingue en su ficha sin gritar. */
+.hab-tipo {
+  font-family: var(--body);
+  font-size: 0.62em;
+  font-style: italic;
+  color: var(--tabaco);
+  letter-spacing: 0.02em;
 }
 
 /* --------------------------------------------------------- la mesa ------ */
