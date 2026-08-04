@@ -545,6 +545,8 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .exp-fondo { transition: none; }
+  .exp-item:hover .exp-fondo { transform: none; }
   .hab-foto img,
   .intro-imagen img,
   .mesa-foto__img,
@@ -1103,14 +1105,59 @@ p {
 }
 
 .exp-item {
+  position: relative;
+  overflow: hidden;
   border-bottom: 1px solid rgba(var(--lino-rgb), 0.22);
 }
 
+/* Cada experiencia puede tener su foto detrás. Va muy apagada y con un velo
+   encima: la idea es que dé materia al bloque, no que compita con el texto.
+   Si no hay foto cargada, la fila se ve igual que antes. */
+.exp-fondo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 0;
+  transition: opacity 0.7s var(--ease), transform 1.4s var(--ease);
+}
+
+/* El velo solo existe cuando hay foto: sin ella no hay nada que oscurecer. */
+.exp-velo { display: none; }
+
+.exp-fondo + .exp-velo {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to right,
+    rgba(48, 45, 34, 0.88) 0%,
+    rgba(48, 45, 34, 0.72) 55%,
+    rgba(48, 45, 34, 0.5) 100%
+  );
+}
+
+.exp-item:hover .exp-fondo {
+  opacity: 0.42;
+  transform: scale(1.03);
+}
+
 .exp-enlace {
+  position: relative;
+  z-index: 1;
   display: block;
   padding-block: clamp(1.6rem, 4vw, 2.5rem);
   text-decoration: none;
   transition: padding-inline 0.5s var(--ease);
+}
+
+/* Con foto detrás, la fila necesita algo de aire lateral para que el texto no
+   quede pegado al borde de la imagen. */
+.exp-item:has(.exp-fondo) .exp-enlace {
+  padding-inline: clamp(1rem, 3vw, 2rem);
 }
 
 a.exp-enlace:hover {
