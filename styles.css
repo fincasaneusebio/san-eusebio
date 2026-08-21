@@ -930,6 +930,15 @@ p {
   gap: clamp(2.5rem, 6vw, 4rem);
 }
 
+/* Los hijos de un grid arrancan con min-width:auto, así que no bajan del
+   ancho mínimo de su contenido. La tira de chips del plano mide ~460px de
+   min-content y estiraba la columna entera: en mobile el bloque salía más
+   ancho que la pantalla y la página quedaba desalineada con scroll lateral.
+   Con min-width:0 la columna respeta el contenedor y la tira scrollea sola. */
+.intro-bloque > * {
+  min-width: 0;
+}
+
 .intro-texto {
   max-width: 62ch;
 }
