@@ -13,7 +13,16 @@ t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1049350507883073');
 fbq('track', 'PageView');
-(function(){var o=window.open;window.open=function(u){try{if(typeof u==='string'&&u.indexOf('wa.me')>-1){fbq('track','Contact');}}catch(e){}return o.apply(window,arguments);};})();
+(function(){
+  var origenes={botonWa:'boton_flotante',ftWa:'footer',ctaCoachingWa:'cta_coaching'};
+  function marcar(o){try{fbq('track','Contact',{content_name:o});}catch(e){}}
+  var abrir=window.open;
+  window.open=function(u){if(typeof u==='string'&&u.indexOf('wa.me')>-1)marcar('formulario');return abrir.apply(window,arguments);};
+  document.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href*="wa.me"]'):null;
+    if(a)marcar(origenes[a.id]||'link_whatsapp');
+  },true);
+})();
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1049350507883073&ev=PageView&noscript=1"/></noscript>
