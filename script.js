@@ -150,7 +150,7 @@
         desc: 'En el medio del parque, entre las dos casas. Se ve desde casi cualquier punto de la finca.',
         chip: 'El molino' },
       { coord: '04 · Lo que da la temporada', nombre: 'La huerta',
-        desc: 'Es chica, la de la casa. Se junta lo que esté maduro y se hacen dulces de estación con eso.',
+        desc: 'Es chica, la de la casa. Da lo que da según el mes y de ahí sale buena parte de lo que se cocina.',
         chip: 'La huerta', ir: 'Ver experiencias →', href: '#experiencias' },
       { coord: '05 · Cosecha en marzo', nombre: 'El olivar',
         desc: 'La línea de árboles del fondo. En marzo se escucha la cosecha desde el casco.',
