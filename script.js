@@ -188,8 +188,20 @@
       if (fijar) elegido = i;
       puntos.forEach(function (p, j) { p.setAttribute('aria-pressed', String(j === i)); });
       chips.forEach(function (c, j) { c.setAttribute('aria-pressed', String(j === i)); });
-      if (fijar && chips[i].scrollIntoView) {
-        chips[i].scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+      // Centrar el chip elegido dentro de su propia tira, moviendo SOLO la
+      // tira. Antes se usaba scrollIntoView, que con la tira fuera de la
+      // pantalla arrastraba la pagina entera y al entrar al sitio te bajaba
+      // solo hasta el plano.
+      if (fijar && tira) {
+        var chip = chips[i];
+        var destino = chip.offsetLeft - (tira.clientWidth - chip.offsetWidth) / 2;
+        destino = Math.max(0, Math.min(destino, tira.scrollWidth - tira.clientWidth));
+        if (tira.scrollTo) {
+          var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          tira.scrollTo({ left: destino, behavior: quieto ? 'auto' : 'smooth' });
+        } else {
+          tira.scrollLeft = destino;
+        }
       }
     }
 
@@ -697,8 +709,24 @@
     dibujar();
   }
 
+  /* ================================================== arrancar arriba ===== */
+  /* Al volver o recargar, el navegador restaura el scroll donde estaba. En una
+     landing conviene entrar siempre por el hero, salvo que la URL traiga un
+     ancla (#consultar, #habitaciones, etc.). */
+  function arrancarArriba() {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (window.location.hash) return;
+    function alTope() {
+      try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }
+      catch (e) { window.scrollTo(0, 0); }
+    }
+    alTope();
+    window.addEventListener('load', alTope, { once: true });
+  }
+
   /* ============================================================ arranque == */
   function iniciar() {
+    seguro('arriba', arrancarArriba);
     seguro('reveal', activarReveal);
     seguro('header', activarHeaderYWhatsapp);
     seguro('menu', activarMenu);
