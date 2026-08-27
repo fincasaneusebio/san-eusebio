@@ -329,7 +329,7 @@
         </label>
         <label class="campo">
           <span>La finca · cuerpo (varios párrafos)</span>
-          <textarea rows="8" data-clave="finca_cuerpo" data-defecto="San Eusebio no es un hotel con paisaje alrededor. Es una finca en actividad: hay olivos y viñas que se cosechan, una huerta que da lo que da según el mes, caballos que trabajan y una casa que se abrió para recibir gente.&#10;&#10;El casco tiene dos casas. En una vive Flor; la otra es la que se ofrece, con cinco habitaciones y una galería larga.&#10;&#10;Estamos a media hora de Tandil por camino de tierra."></textarea>
+          <textarea rows="8" data-clave="finca_cuerpo" data-defecto="San Eusebio no es un hotel con paisaje alrededor. Es una finca en actividad: hay olivos y viñas que se cosechan, una huerta que da lo que da según el mes, caballos que trabajan y una casa que se abrió para recibir gente.&#10;&#10;El casco tiene dos casas. En una vive Flor; la otra es la que se ofrece, con cinco habitaciones y una galería larga.&#10;&#10;Estamos a media hora de Tandil."></textarea>
         </label>
 
         <label class="campo">
@@ -343,7 +343,7 @@
         </label>
         <label class="campo">
           <span>Habitaciones · bajada</span>
-          <textarea rows="3" data-clave="habitaciones_intro" data-defecto="La casa se puede alquilar entera o por habitación suelta. Cada una tiene su carácter, y todas miran al campo."></textarea>
+          <textarea rows="3" data-clave="habitaciones_intro" data-defecto="La casa se puede alquilar entera o por habitación individual. Cada una tiene su carácter, y todas miran al campo."></textarea>
         </label>
 
         <label class="campo">
@@ -380,12 +380,8 @@
           <input type="text" data-clave="incluye_titulo" data-defecto="Qué incluye la estadía">
         </label>
         <label class="campo">
-          <span>Qué incluye · bajada</span>
-          <textarea rows="2" data-clave="incluye_intro" data-defecto="Lo que entra en el precio y lo que se cobra aparte, dicho antes de que lo preguntes."></textarea>
-        </label>
-        <label class="campo">
           <span>Qué incluye · filas</span>
-          <textarea rows="9" data-clave="incluye_filas" data-defecto="Alojamiento | Cinco habitaciones en la casa de en frente: una suite con baño privado y cuatro con baño compartido. Capacidad total, 11 personas.&#10;Ropa blanca | Sábanas y toallas de calidad en todas las habitaciones.&#10;Desayuno | Incluido en la tarifa de todas las habitaciones.&#10;Cena | Optativa, en modalidad media pensión, con la cocina de nuestro chef. Se sirve en la casa principal.&#10;Bebidas | Se cobran aparte.&#10;Zonas comunes | Casona centenaria, viñedos y olivares, pileta y estufa a leña."></textarea>
+          <textarea rows="9" data-clave="incluye_filas" data-defecto="Alojamiento | Cinco habitaciones en la casa de en frente: una suite con baño privado y cuatro con baño compartido. Capacidad total, 11 personas.&#10;Ropa blanca | Sábanas y toallas de calidad en todas las habitaciones.&#10;Desayuno | Incluido en la tarifa de todas las habitaciones.&#10;Cena | Optativa, en modalidad media pensión, con la cocina de nuestro chef.&#10;Bebidas | Se cobran aparte.&#10;Zonas comunes | Casona centenaria, viñedos y olivares, pileta y estufa a leña."></textarea>
         </label>
         <p class="ayuda">Una fila por línea, con una barra vertical separando el título de la explicación. Por ejemplo: <code>Desayuno | Incluido en la tarifa.</code></p>
 
@@ -395,7 +391,7 @@
         </label>
         <label class="campo">
           <span>La mesa · bajada</span>
-          <textarea rows="3" data-clave="mesa_intro" data-defecto="Es optativa: se suma a la tarifa como media pensión y se sirve en la casa principal. El menú cambia con la temporada y con lo que haya en la huerta ese día."></textarea>
+          <textarea rows="3" data-clave="mesa_intro" data-defecto="Es optativa: se suma a la tarifa como media pensión. El menú cambia con la temporada y con lo que haya en la huerta ese día."></textarea>
         </label>
         <label class="campo">
           <span>La mesa · platos (uno por línea)</span>
@@ -551,7 +547,17 @@
           <p class="estado"></p>
         </div>
         <div class="foto-slot" data-clave="foto_exp_caminatas">
-          <h3>Experiencia · Caminatas en el viñedo</h3>
+          <h3>Experiencia · Caminatas por el viñedo</h3>
+          <div class="foto-preview"><span>Sin foto</span></div>
+          <input type="file" accept="image/*">
+          <div class="foto-acciones">
+            <button type="button" class="boton" data-accion="subir">Subir esta foto</button>
+            <button type="button" class="boton boton--fantasma" data-accion="cancelar">Cancelar</button>
+          </div>
+          <p class="estado"></p>
+        </div>
+        <div class="foto-slot" data-clave="foto_exp_dulces">
+          <h3>Experiencia · Dulces de estación</h3>
           <div class="foto-preview"><span>Sin foto</span></div>
           <input type="file" accept="image/*">
           <div class="foto-acciones">
@@ -881,8 +887,7 @@
       { rotulo: 'La finca',      titulo: 'finca_titulo',        cuerpo: 'finca_cuerpo',
         pie: 'finca_pie' },
       { rotulo: 'Habitaciones',  titulo: 'habitaciones_titulo', bajada: 'habitaciones_intro' },
-      { rotulo: 'Qué incluye',   titulo: 'incluye_titulo',      bajada: 'incluye_intro',
-        filas: 'incluye_filas' },
+      { rotulo: 'Qué incluye',   titulo: 'incluye_titulo',      filas: 'incluye_filas' },
       { rotulo: 'La mesa',       titulo: 'mesa_titulo',         bajada: 'mesa_intro',
         items: 'mesa_platos',      pie: 'mesa_pie' },
       { rotulo: 'Experiencias',  titulo: 'experiencias_titulo', bajada: 'experiencias_intro' },

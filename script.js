@@ -150,11 +150,11 @@
         desc: 'En el medio del parque, entre las dos casas. Se ve desde casi cualquier punto de la finca.',
         chip: 'El molino' },
       { coord: '04 · Lo que da la temporada', nombre: 'La huerta',
-        desc: 'Es chica, la de la casa. Da lo que da según el mes y de ahí sale buena parte de lo que se cocina.',
+        desc: 'Es chica, la de la casa. Se cosecha lo que esté maduro y se hacen dulces de estación con eso.',
         chip: 'La huerta', ir: 'Ver experiencias →', href: '#experiencias' },
-      { coord: '05 · Cosecha en marzo', nombre: 'El olivar',
-        desc: 'La línea de árboles del fondo. En marzo se escucha la cosecha desde el casco.',
-        chip: 'El olivar', ir: 'Ver experiencias →', href: '#experiencias' }
+      { coord: '05 · Cosecha en marzo', nombre: 'El viñedo',
+        desc: 'Las hileras que quedan más allá del monte. En marzo se escucha la cosecha desde el casco.',
+        chip: 'El viñedo', ir: 'Ver experiencias →', href: '#experiencias' }
     ];
 
     var puntos = [].slice.call(plano.querySelectorAll('.plano__punto'));
