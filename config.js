@@ -14,7 +14,8 @@ window.SAN_EUSEBIO = {
 
   ubicacion: 'De la Canal, Tandil — Provincia de Buenos Aires',
 
-  // Coordenadas aproximadas de De la Canal. Ajustar al punto exacto del casco.
-  mapaLat: -37.2333,
-  mapaLng: -59.4667,
+  // Coordenadas del casco (las mismas que usan el botón y el mapa de
+  // "Cómo llegar" en index.html).
+  mapaLat: -37.103211,
+  mapaLng: -59.085014,
 };
