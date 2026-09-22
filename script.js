@@ -2,8 +2,9 @@
    San Eusebio — comportamiento del sitio (HTML puro)
    --------------------------------------------------------------------------
    Cada bloque va aislado en su propio try/catch: si uno falla, los demás
-   siguen funcionando. El calendario, el formulario y el menú NO dependen de
-   Supabase; Supabase solo aporta las fotos del hero y las fechas ocupadas.
+   siguen funcionando. El sitio no depende de ningún servicio externo salvo el
+   video del hero, que está en Cloudinary. Fotos y fechas ocupadas viven en
+   este mismo archivo, más abajo.
    ========================================================================== */
 
 (function () {
@@ -17,12 +18,47 @@
     }
   }
 
-  var sb = null;
-  seguro('supabase-init', function () {
-    if (window.supabase && CFG.supabaseUrl && CFG.supabaseAnonKey) {
-      sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
-    }
-  });
+  /* =================================================== DATOS EDITABLES ===
+     Todo lo que antes se cargaba desde el panel vive acá.
+
+     FOTOS — cada espacio de foto del sitio y el archivo que muestra. Para
+     cambiar una foto: subí el archivo nuevo a la carpeta img/ del repo con el
+     MISMO nombre y listo, no hace falta tocar nada acá. Si un espacio no
+     aparece en la lista, esa foto no se muestra y su recuadro se oculta solo.
+
+     HERO — el video del banner de inicio (en Cloudinary) y la foto fija que
+     se ve mientras carga, o en celulares que no reproducen video.
+
+     OCUPADAS — noches que el calendario marca como no disponibles, en formato
+     'AAAA-MM-DD', una por noche. Si alguien reserva del 10 al 12, se cargan
+     '2026-10-10' y '2026-10-11' (la noche del 12 ya es libre). Las fechas que
+     ya pasaron se ignoran solas, no hace falta borrarlas. */
+
+  var FOTOS = {
+    'foto_finca':           'img/finca.jpg',
+    'foto_hab_la-galeria':  'img/hab-la-galeria.jpg',
+    'foto_hab_la-huerta':   'img/hab-la-huerta.jpg',
+    'foto_hab_los-olivos':  'img/hab-los-olivos.jpg',
+    'foto_hab_el-molino':   'img/hab-el-molino.jpg',
+    'foto_hab_el-fondo':    'img/hab-el-fondo.jpg',
+    'foto_exp_coaching':    'img/exp-coaching.jpg',
+    'foto_plato_1':         'img/plato-1.jpg',
+    'foto_plato_2':         'img/plato-2.jpg',
+    'foto_plato_3':         'img/plato-3.jpg',
+    'foto_plato_4':         'img/plato-4.jpg',
+    'coaching_hero_foto':   'img/coaching-hero.jpg',
+    'coaching_foto_yegua':  'img/coaching-yegua.jpg',
+    'coaching_foto_sesion': 'img/coaching-sesion.jpg',
+    'coaching_foto_grupo':  'img/coaching-grupo.jpg'
+  };
+
+  var HERO = {
+    video:  'https://res.cloudinary.com/kvulojgi/video/upload/f_mp4,q_auto,vc_auto,w_1920/0803_xi6lqc.mp4',
+    poster: 'img/finca.jpg'
+  };
+
+  var OCUPADAS = [
+  ];
 
   /* ====================================================== utilidades fecha = */
   var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
@@ -348,108 +384,43 @@
     pintar();
   }
 
-  /* ==================================================== textos (Supabase) = */
-  function cargarContenidos() {
-    if (!sb) return;
-    sb.from('contenidos').select('clave, valor')
-      .then(function (res) {
-        if (!res || !res.data) return;
-        res.data.forEach(function (fila) {
-          if (fila.valor == null || fila.valor === '') return;
-
-          // Elementos de texto simple (título, intro): se reemplaza el texto.
-          document.querySelectorAll('[data-contenido="' + fila.clave + '"]')
-            .forEach(function (el) { el.textContent = fila.valor; });
-
-          // Bloques de cuerpo: cada línea en blanco separa un párrafo.
-          document.querySelectorAll('[data-contenido-cuerpo="' + fila.clave + '"]')
-            .forEach(function (el) {
-              el.innerHTML = '';
-              fila.valor.split(/\n\s*\n/).forEach(function (parrafo) {
-                var t = parrafo.trim();
-                if (!t) return;
-                var p = document.createElement('p');
-                p.textContent = t;
-                el.appendChild(p);
-              });
-            });
-
-          // Filas de "etiqueta | explicación", una por línea. Un solo campo
-          // en el panel maneja toda la lista de qué incluye la tarifa.
-          document.querySelectorAll('[data-contenido-filas="' + fila.clave + '"]')
-            .forEach(function (el) {
-              var filas = fila.valor.split('\n')
-                .map(function (t) { return t.trim(); })
-                .filter(function (t) { return t.indexOf('|') > 0; });
-              if (!filas.length) return;
-              el.innerHTML = '';
-              filas.forEach(function (t) {
-                var corte = t.indexOf('|');
-                var caja = document.createElement('div');
-                caja.className = 'incluye__fila';
-                var dt = document.createElement('dt');
-                dt.textContent = t.slice(0, corte).trim();
-                var dd = document.createElement('dd');
-                dd.textContent = t.slice(corte + 1).trim();
-                caja.appendChild(dt);
-                caja.appendChild(dd);
-                el.appendChild(caja);
-              });
-            });
-
-          // Listas: cada línea es un ítem. Sirve para el menú, que va a
-          // crecer, sin que haga falta tocar el HTML cada vez.
-          document.querySelectorAll('[data-contenido-items="' + fila.clave + '"]')
-            .forEach(function (el) {
-              var lineas = fila.valor.split('\n')
-                .map(function (t) { return t.trim(); })
-                .filter(function (t) { return t.length > 0; });
-              if (!lineas.length) return;
-              el.innerHTML = '';
-              lineas.forEach(function (t) {
-                var li = document.createElement('li');
-                li.textContent = t;
-                el.appendChild(li);
-              });
-            });
-
-          // Fotos: reemplazan el placeholder por una imagen real.
-          document.querySelectorAll('[data-foto="' + fila.clave + '"]')
-            .forEach(function (el) {
-              var img = document.createElement('img');
-              img.src = fila.valor;
-              img.alt = '';
-              img.loading = 'lazy';
-              // El placeholder puede pedir una clase para la imagen que lo
-              // reemplaza (por ejemplo, la foto de fondo del hero).
-              var clase = el.getAttribute('data-foto-clase');
-              if (clase) img.className = clase;
-              // Si cuelga de una figura opcional, la figura recién se muestra
-              // ahora que hay algo real para mostrar. Lo mismo con el grupo
-              // que la contiene: sin ninguna foto, no ocupa lugar.
-              var opcional = el.closest ? el.closest('.foto-opcional') : null;
-              var grupo = el.closest ? el.closest('.grupo-opcional') : null;
-              // Ojo: hay que buscar los ancestros ANTES de reemplazar el
-              // placeholder. Después ya salió del documento y closest da null.
-              var plano = el.closest ? el.closest('.plano') : null;
-              // El placeholder puede ser un <span> (se reemplaza) o un
-              // contenedor .hab-foto (se le vacía y se le mete la imagen).
-              if (el.classList.contains('hab-foto')) {
-                el.innerHTML = '';
-                el.appendChild(img);
-              } else {
-                el.replaceWith(img);
-              }
-              if (opcional) opcional.classList.add('con-foto');
-              if (grupo) grupo.classList.add('con-foto');
-              if (plano) plano.classList.add('con-foto');
-            });
+  /* ============================================================ fotos == */
+  function cargarFotos() {
+    Object.keys(FOTOS).forEach(function (clave) {
+      var ruta = FOTOS[clave];
+      if (!ruta) return;
+      document.querySelectorAll('[data-foto="' + clave + '"]')
+        .forEach(function (el) {
+          var img = document.createElement('img');
+          img.src = ruta;
+          img.alt = '';
+          img.loading = 'lazy';
+          // El placeholder puede pedir una clase para la imagen que lo
+          // reemplaza (por ejemplo, la foto de fondo del hero de coaching).
+          var clase = el.getAttribute('data-foto-clase');
+          if (clase) img.className = clase;
+          // Ojo: hay que buscar los ancestros ANTES de reemplazar el
+          // placeholder. Después ya salió del documento y closest da null.
+          var opcional = el.closest ? el.closest('.foto-opcional') : null;
+          var grupo = el.closest ? el.closest('.grupo-opcional') : null;
+          var plano = el.closest ? el.closest('.plano') : null;
+          // El placeholder puede ser un <span> (se reemplaza) o un
+          // contenedor .hab-foto (se le vacía y se le mete la imagen).
+          if (el.classList.contains('hab-foto')) {
+            el.innerHTML = '';
+            el.appendChild(img);
+          } else {
+            el.replaceWith(img);
+          }
+          // La figura (y su grupo) recién se muestra ahora que hay foto.
+          if (opcional) opcional.classList.add('con-foto');
+          if (grupo) grupo.classList.add('con-foto');
+          if (plano) plano.classList.add('con-foto');
         });
-      })
-      .catch(function () { /* si falla, quedan los textos por defecto del HTML */ });
+    });
   }
 
-  /* ===================================================== hero (Supabase) == */
+  /* ============================================================= hero == */
 
   /* Interruptor: poner en false vuelve al comportamiento viejo (video solo en
      pantallas grandes, celular siempre con la foto fija). */
@@ -485,58 +456,49 @@
   }
 
   function cargarHero() {
-    if (!sb) return;
-    sb.from('configuracion')
-      .select('hero_video_url, hero_poster_url')
-      .eq('id', 1)
-      .single()
-      .then(function (res) {
-        var d = res && res.data;
-        if (!d) return;
-        var fondo = document.querySelector('.hero-fondo');
-        if (!fondo) return;
-        if (d.hero_poster_url) {
-          var vacio = fondo.querySelector('.hero-posterVacio');
-          if (vacio) vacio.remove();
-          var img = document.createElement('img');
-          img.src = d.hero_poster_url;
-          img.alt = '';
-          img.className = 'hero-poster';
-          fondo.insertBefore(img, fondo.firstChild);
-        }
-        var plan = planDeVideo();
-        if (!d.hero_video_url || !plan) return;
+    var d = { hero_video_url: HERO.video, hero_poster_url: HERO.poster };
+    var fondo = document.querySelector('.hero-fondo');
+    if (!fondo) return;
+    if (d.hero_poster_url) {
+      var vacio = fondo.querySelector('.hero-posterVacio');
+      if (vacio) vacio.remove();
+      var img = document.createElement('img');
+      img.src = d.hero_poster_url;
+      img.alt = '';
+      img.className = 'hero-poster';
+      fondo.insertBefore(img, fondo.firstChild);
+    }
+    var plan = planDeVideo();
+    if (!d.hero_video_url || !plan) return;
 
-        var v = document.createElement('video');
-        v.src = plan.grande ? d.hero_video_url : versionLiviana(d.hero_video_url);
-        if (d.hero_poster_url) v.poster = d.hero_poster_url;
-        v.autoplay = true; v.muted = true; v.loop = true;
-        v.playsInline = true; v.setAttribute('playsinline', '');
-        v.setAttribute('muted', '');
-        v.preload = plan.grande ? 'auto' : 'none';
-        v.className = 'hero-video';
-        v.setAttribute('aria-hidden', 'true');
+    var v = document.createElement('video');
+    v.src = plan.grande ? d.hero_video_url : versionLiviana(d.hero_video_url);
+    if (d.hero_poster_url) v.poster = d.hero_poster_url;
+    v.autoplay = true; v.muted = true; v.loop = true;
+    v.playsInline = true; v.setAttribute('playsinline', '');
+    v.setAttribute('muted', '');
+    v.preload = plan.grande ? 'auto' : 'none';
+    v.className = 'hero-video';
+    v.setAttribute('aria-hidden', 'true');
 
-        /* Red de contención: si el video no llega a reproducirse en 8 segundos
-           —señal mala, archivo pesado, autoplay bloqueado— se saca del medio y
-           queda la foto fija, que es lo que había antes. El visitante nunca ve
-           un rectángulo negro esperando. */
-        var vivo = false;
-        v.addEventListener('playing', function () { vivo = true; });
-        v.addEventListener('error', function () { if (v.parentNode) v.parentNode.removeChild(v); });
-        setTimeout(function () {
-          if (!vivo && v.parentNode) v.parentNode.removeChild(v);
-        }, 8000);
+    /* Red de contención: si el video no llega a reproducirse en 8 segundos
+       —señal mala, archivo pesado, autoplay bloqueado— se saca del medio y
+       queda la foto fija, que es lo que había antes. El visitante nunca ve
+       un rectángulo negro esperando. */
+    var vivo = false;
+    v.addEventListener('playing', function () { vivo = true; });
+    v.addEventListener('error', function () { if (v.parentNode) v.parentNode.removeChild(v); });
+    setTimeout(function () {
+      if (!vivo && v.parentNode) v.parentNode.removeChild(v);
+    }, 8000);
 
-        var velo = fondo.querySelector('.hero-velo');
-        fondo.insertBefore(v, velo);
+    var velo = fondo.querySelector('.hero-velo');
+    fondo.insertBefore(v, velo);
 
-        /* En celular la reproducción automática puede estar bloqueada (modo de
-           bajo consumo, por ejemplo). Se pide igual y si dice que no, no rompe. */
-        var intento = v.play();
-        if (intento && intento.catch) intento.catch(function () { });
-      })
-      .catch(function () { });
+    /* En celular la reproducción automática puede estar bloqueada (modo de
+       bajo consumo, por ejemplo). Se pide igual y si dice que no, no rompe. */
+    var intento = v.play();
+    if (intento && intento.catch) intento.catch(function () { });
   }
 
   /* ======================================================= calendario ===== */
@@ -574,23 +536,8 @@
     function estaOcupada(c) { return ocupadas[c] === true; }
     function rangoPisaOcupada(a, b) { return nochesEntre(a, b).some(estaOcupada); }
 
-    if (sb) {
-      seguro('disponibilidad', function () {
-        sb.from('disponibilidad')
-          .select('fecha')
-          .eq('disponible', false)
-          .gte('fecha', hoy)
-          .then(function (res) {
-            if (res && res.data) {
-              res.data.forEach(function (r) { ocupadas[r.fecha] = true; });
-            }
-            disponibilidadCargada = true;
-            dibujar();
-            if (alCargarDisponibilidad) alCargarDisponibilidad();
-          })
-          .catch(function () { });
-      });
-    }
+    OCUPADAS.forEach(function (c) { if (c >= hoy) ocupadas[c] = true; });
+    disponibilidadCargada = true;
 
     function actualizarResumen() {
       if (entrada && salida) {
@@ -731,7 +678,7 @@
     seguro('header', activarHeaderYWhatsapp);
     seguro('menu', activarMenu);
     seguro('contacto', completarContacto);
-    seguro('contenidos', cargarContenidos);
+    seguro('fotos', cargarFotos);
     seguro('hero', cargarHero);
     seguro('calendario', activarCalendario);
     seguro('plano', activarPlano);
