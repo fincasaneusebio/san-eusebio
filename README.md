@@ -1,8 +1,7 @@
 # San Eusebio — sitio web
 
-Sitio estático en HTML puro. Mismo enfoque que CoMakers: se publica desde
-GitHub y lee el contenido editable desde Supabase. No necesita servidor ni
-proceso de build.
+Sitio estático en HTML puro. Se publica desde GitHub Pages y no depende de
+ninguna base de datos. No necesita servidor ni proceso de build.
 
 ## Archivos
 
@@ -24,8 +23,6 @@ python3 -m http.server 8000
 
 Después entrá a http://localhost:8000 en el navegador.
 
-(Abrir el `index.html` con doble clic también funciona, pero algunos navegadores
-bloquean la lectura de Supabase con `file://`. Por eso conviene el servidorcito.)
 
 ## Antes de publicar — completar datos reales
 
@@ -50,16 +47,19 @@ estudio, se reemplaza (lo vemos juntos, es un cambio acotado).
 Esa URL gratis sirve para ver todo funcionando y mostrarlo. Cuando se compre el
 dominio, se conecta desde esa misma pantalla (Settings → Pages → Custom domain).
 
-## El contenido editable (Supabase)
+## Qué se edita y dónde
 
-El sitio lee dos cosas de Supabase, con la clave pública:
+El sitio no usa base de datos ni panel: todo vive en el repo.
 
-- **Hero** (video e imagen del banner de inicio) — tabla `configuracion`.
-- **Calendario** (fechas ocupadas y precios) — tabla `disponibilidad`.
-
-Si Supabase no responde o está vacío, el sitio se ve igual: usa una imagen de
-fondo por defecto en el hero y muestra el calendario con todo libre. Nunca se
-rompe por falta de datos.
+- **Textos** → directamente en `index.html` y `coaching-con-caballos.html`.
+- **Fotos** → sueltas en la raíz del repo. Para cambiar una, subí la nueva
+  con el mismo nombre. La lista de qué foto va en cada lugar está al
+  principio de `script.js` (`FOTOS`).
+- **Fechas ocupadas del calendario** → lista `OCUPADAS` al principio de
+  `script.js`, una fecha por noche en formato `'AAAA-MM-DD'`.
+- **Video del hero** → está en Cloudinary; la URL está en `HERO`, en
+  `script.js`.
+- **Datos de contacto** → `config.js`.
 
 El formulario de consulta **no guarda nada**: arma un mensaje con las fechas
 elegidas y abre WhatsApp para seguir la conversación ahí.

@@ -22,8 +22,8 @@
      Todo lo que antes se cargaba desde el panel vive acá.
 
      FOTOS — cada espacio de foto del sitio y el archivo que muestra. Para
-     cambiar una foto: subí el archivo nuevo a la carpeta img/ del repo con el
-     MISMO nombre y listo, no hace falta tocar nada acá. Si un espacio no
+     cambiar una foto: subí el archivo nuevo al repo con el MISMO nombre y
+     listo, no hace falta tocar nada acá. Si un espacio no
      aparece en la lista, esa foto no se muestra y su recuadro se oculta solo.
 
      HERO — el video del banner de inicio (en Cloudinary) y la foto fija que
@@ -35,26 +35,26 @@
      ya pasaron se ignoran solas, no hace falta borrarlas. */
 
   var FOTOS = {
-    'foto_finca':           'img/finca.jpg',
-    'foto_hab_la-galeria':  'img/hab-la-galeria.jpg',
-    'foto_hab_la-huerta':   'img/hab-la-huerta.jpg',
-    'foto_hab_los-olivos':  'img/hab-los-olivos.jpg',
-    'foto_hab_el-molino':   'img/hab-el-molino.jpg',
-    'foto_hab_el-fondo':    'img/hab-el-fondo.jpg',
-    'foto_exp_coaching':    'img/exp-coaching.jpg',
-    'foto_plato_1':         'img/plato-1.jpg',
-    'foto_plato_2':         'img/plato-2.jpg',
-    'foto_plato_3':         'img/plato-3.jpg',
-    'foto_plato_4':         'img/plato-4.jpg',
-    'coaching_hero_foto':   'img/coaching-hero.jpg',
-    'coaching_foto_yegua':  'img/coaching-yegua.jpg',
-    'coaching_foto_sesion': 'img/coaching-sesion.jpg',
-    'coaching_foto_grupo':  'img/coaching-grupo.jpg'
+    'foto_finca':           'finca.jpg',
+    'foto_hab_la-galeria':  'hab-la-galeria.jpg',
+    'foto_hab_la-huerta':   'hab-la-huerta.jpg',
+    'foto_hab_los-olivos':  'hab-los-olivos.jpg',
+    'foto_hab_el-molino':   'hab-el-molino.jpg',
+    'foto_hab_el-fondo':    'hab-el-fondo.jpg',
+    'foto_exp_coaching':    'exp-coaching.jpg',
+    'foto_plato_1':         'plato-1.jpg',
+    'foto_plato_2':         'plato-2.jpg',
+    'foto_plato_3':         'plato-3.jpg',
+    'foto_plato_4':         'plato-4.jpg',
+    'coaching_hero_foto':   'coaching-hero.jpg',
+    'coaching_foto_yegua':  'coaching-yegua.jpg',
+    'coaching_foto_sesion': 'coaching-sesion.jpg',
+    'coaching_foto_grupo':  'coaching-grupo.jpg'
   };
 
   var HERO = {
     video:  'https://res.cloudinary.com/kvulojgi/video/upload/f_mp4,q_auto,vc_auto,w_1920/0803_xi6lqc.mp4',
-    poster: 'img/finca.jpg'
+    poster: 'finca.jpg'
   };
 
   var OCUPADAS = [
