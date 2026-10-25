@@ -12,6 +12,9 @@ window.SAN_EUSEBIO = {
   email: 'fincasaneusebio@gmail.com',
   instagram: 'saneusebio.hosteria',
 
+  // --- Día de campo ---
+  diaDeCampoPrecio: '$ 140.000', // precio por persona que se muestra en la página
+
   ubicacion: 'De la Canal, Tandil — Provincia de Buenos Aires',
 
   // Coordenadas del casco (las mismas que usan el botón y el mapa de

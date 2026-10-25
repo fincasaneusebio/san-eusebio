@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1049350507883073');
+fbq('track', 'PageView');
+(function(){
+  var origenes={botonWa:'boton_flotante',ftWa:'footer',ctaDcHero:'cta_dia_de_campo'};
+  function marcar(o){try{fbq('track','Contact',{content_name:o});}catch(e){}}
+  var abrir=window.open;
+  window.open=function(u){if(typeof u==='string'&&u.indexOf('wa.me')>-1)marcar('formulario');return abrir.apply(window,arguments);};
+  document.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href*="wa.me"]'):null;
+    if(a)marcar(origenes[a.id]||'link_whatsapp');
+  },true);
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1049350507883073&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
+<title>Día de campo · San Eusebio</title>
+<meta name="description" content="Día de campo en Estancia San Eusebio, De la Canal, Tandil. De 10 a 19 hs: almuerzo de la chef, merienda casera, paseo por la estancia y el viñedo.">
+<meta property="og:title" content="Día de campo — San Eusebio">
+<meta property="og:description" content="Un día en el campo, sin apuro. Almuerzo, merienda y paseo por la estancia, de 10 a 19 hs.">
+<meta property="og:image" content="https://hosteriasaneusebio.com.ar/dia-de-campo-hero.jpg">
+<meta property="og:url" content="https://hosteriasaneusebio.com.ar/dia-de-campo.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a href="#contenido" class="solo-lectores">Ir al contenido</a>
+
+<header class="hd-header" id="header">
+  <a href="index.html" class="hd-logo" aria-label="San Eusebio, inicio">
+    <img src="logo-claro.svg" alt="San Eusebio" class="logo-img logo-claro">
+    <img src="logo-oscuro.svg" alt="" aria-hidden="true" class="logo-img logo-oscuro">
+  </a>
+  <nav class="hd-navEscritorio" aria-label="Principal">
+    <a href="index.html#la-finca" class="hd-enlace">La finca</a>
+    <a href="index.html#habitaciones" class="hd-enlace">Habitaciones</a>
+    <a href="index.html#experiencias" class="hd-enlace">Experiencias</a>
+    <a href="dia-de-campo.html" class="hd-enlace">Día de campo</a>
+    <a href="coaching-con-caballos.html" class="hd-enlace">Coaching con caballos</a>
+    <a href="index.html#como-llegar" class="hd-enlace">Cómo llegar</a>
+    <a href="index.html#consultar" class="hd-cta">Consultar fechas</a>
+  </nav>
+  <button class="hd-hamburguesa" id="hamburguesa" aria-expanded="false" aria-controls="menu-movil">
+    <span class="solo-lectores">Abrir menú</span>
+    <span class="hd-raya" aria-hidden="true"></span>
+    <span class="hd-raya" aria-hidden="true"></span>
+  </button>
+  <div id="menu-movil" class="hd-menuMovil" hidden>
+    <nav aria-label="Principal, versión móvil">
+      <a href="index.html#la-finca">La finca</a>
+      <a href="index.html#habitaciones">Habitaciones</a>
+      <a href="index.html#experiencias">Experiencias</a>
+      <a href="dia-de-campo.html">Día de campo</a>
+      <a href="coaching-con-caballos.html">Coaching con caballos</a>
+      <a href="index.html#como-llegar">Cómo llegar</a>
+      <a href="index.html#consultar" class="hd-ctaMovil">Consultar fechas</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ============================================================ HERO -->
+  <section class="coaching-hero dc-hero">
+    <span data-foto="dia_campo_hero" data-foto-clase="coaching-hero__foto" aria-hidden="true"></span>
+    <div class="coaching-hero__velo" aria-hidden="true"></div>
+    <div class="coaching-hero__contenido">
+      <p class="eyebrow" style="color: var(--ambar)">Día de campo</p>
+      <h1>Un día en el campo, sin apuro</h1>
+      <p class="subtitulo">De 10 a 19 hs · De la Canal, Tandil</p>
+      <a class="boton dc-boton-hero" id="ctaDcHero" href="#reservar">Reservar por WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ========================================================= QUÉ ES -->
+  <section class="seccion">
+    <div class="contenedor dc-dos">
+      <div class="reveal">
+        <p class="eyebrow">Jornada de 10 a 19 hs · Sin alojamiento</p>
+        <h2>¿Qué es el Día de Campo?</h2>
+        <div class="filete filete--corto"></div>
+        <div class="texto">
+          <p>
+            Un día entero para venir a la estancia, sentarse a la mesa sin mirar
+            el reloj y dejar que el campo haga lo suyo. Llegás a media mañana,
+            almorzás lo que preparó la chef, salís a caminar entre el parque y el
+            viñedo, y la tarde se cierra con una merienda casera en la galería.
+          </p>
+          <p>
+            Es la forma más simple de conocer San Eusebio: sin valijas, con tiempo,
+            y con la historia de la casa contada por quien la vive.
+          </p>
+        </div>
+      </div>
+      <figure class="dc-foto dc-foto--alta foto-opcional reveal" data-delay="1">
+        <span data-foto="dia_campo_almuerzo" data-foto-clase="dc-foto__img" aria-hidden="true"></span>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================================================== QUÉ INCLUYE -->
+  <section class="seccion seccion--verde">
+    <div class="contenedor">
+      <header class="reveal" style="margin-bottom:clamp(2.5rem,6vw,4rem); max-width:46rem;">
+        <p class="eyebrow">Qué incluye</p>
+        <h2>De la mesa al parque</h2>
+        <div class="filete filete--corto"></div>
+      </header>
+
+      <div class="dc-incluye">
+        <article class="dc-bloque reveal">
+          <figure class="dc-foto foto-opcional">
+            <span data-foto="dia_campo_picada" data-foto-clase="dc-foto__img" aria-hidden="true"></span>
+          </figure>
+          <p class="dc-hora">Mediodía</p>
+          <h3>Almuerzo</h3>
+          <p class="dc-bajada">Menú del día preparado por la chef</p>
+          <ul class="dc-lista">
+            <li>Empanadas de carne o de verdura</li>
+            <li>Picada de campo</li>
+            <li>Milanesas con ensalada</li>
+            <li>Queso y dulce</li>
+            <li>Una gaseosa línea cola y un Malbec joven cada dos personas</li>
+          </ul>
+        </article>
+
+        <article class="dc-bloque reveal" data-delay="1">
+          <figure class="dc-foto foto-opcional">
+            <span data-foto="dia_campo_merienda" data-foto-clase="dc-foto__img" aria-hidden="true"></span>
+          </figure>
+          <p class="dc-hora">Media tarde</p>
+          <h3>Merienda</h3>
+          <p class="dc-bajada">Todo casero, en la galería</p>
+          <ul class="dc-lista">
+            <li>Té o café</li>
+            <li>Tostadas de pan casero</li>
+            <li>Queso crema y dulce de frutas</li>
+            <li>Budín y muffins</li>
+          </ul>
+        </article>
+
+        <article class="dc-bloque reveal" data-delay="2">
+          <figure class="dc-foto foto-opcional">
+            <span data-foto="dia_campo_jardin" data-foto-clase="dc-foto__img" aria-hidden="true"></span>
+          </figure>
+          <p class="dc-hora">Todo el día</p>
+          <h3>La estancia</h3>
+          <p class="dc-bajada">Para estar, caminar y escuchar</p>
+          <ul class="dc-lista">
+            <li>Uso de la galería y del baño de la casa del frente</li>
+            <li>Paseo por la estancia y el viñedo</li>
+            <li>El relato de la historia de la estancia, a cargo de la propietaria</li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="dc-aviso reveal">
+        Contamos con menú vegetariano y sin TACC. Avisanos al reservar.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================================================= HISTORIA -->
+  <section class="seccion">
+    <div class="contenedor dc-dos dc-dos--invertido">
+      <figure class="dc-foto dc-foto--alta foto-opcional reveal">
+        <span data-foto="dia_campo_propietaria" data-foto-clase="dc-foto__img" aria-hidden="true"></span>
+      </figure>
+      <div class="reveal" data-delay="1">
+        <p class="eyebrow">La casa y su gente</p>
+        <p class="coaching-cita">“Cada rincón de San Eusebio tiene una historia, y nos gusta contarla en persona.”</p>
+        <div class="filete filete--corto"></div>
+        <div class="texto">
+          <p>
+            Durante la tarde, la propietaria te acompaña a recorrer la estancia
+            y cuenta cómo llegó a ser lo que es hoy: la casa, los olivos, el
+            viñedo y los caballos que andan sueltos entre los árboles.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= PRECIO -->
+  <section class="seccion dc-seccionPrecio">
+    <div class="contenedor dc-precioGrilla">
+      <div class="dc-precio reveal">
+        <p class="eyebrow">Temporada baja</p>
+        <p class="dc-precio__monto" id="dcPrecio">$ 140.000</p>
+        <p class="dc-precio__unidad">por persona · de 10 a 19 hs</p>
+        <div class="filete filete--corto" style="margin-inline:auto;"></div>
+        <p class="dc-precio__incluye">Almuerzo, merienda, bebidas, paseo por la estancia y el viñedo, y el relato de su historia.</p>
+        <a class="boton" href="#reservar">Consultar fecha</a>
+      </div>
+
+      <div class="dc-extra reveal" data-delay="1">
+        <figure class="dc-foto foto-opcional">
+          <span data-foto="dia_campo_caballos" data-foto-clase="dc-foto__img" aria-hidden="true"></span>
+        </figure>
+        <p class="eyebrow">Adicional</p>
+        <h3>Cabalgatas</h3>
+        <p>Se organizan en la estancia según disponibilidad. Tienen un costo aparte: consultanos al reservar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== PREGUNTAS -->
+  <section class="seccion">
+    <div class="contenedor" style="max-width:48rem;">
+      <header class="reveal" style="margin-bottom:2rem;">
+        <p class="eyebrow">Antes de venir</p>
+        <h2>Preguntas frecuentes</h2>
+        <div class="filete filete--corto"></div>
+      </header>
+      <div class="dc-faq reveal">
+        <details>
+          <summary>¿Cuál es el horario?</summary>
+          <p>La jornada va de 10 a 19 hs. No incluye alojamiento; si querés quedarte a dormir, consultanos por las habitaciones.</p>
+        </details>
+        <details>
+          <summary>¿Hay opciones vegetarianas o sin TACC?</summary>
+          <p>Sí. Avisanos al momento de reservar y la chef prepara el menú para vos.</p>
+        </details>
+        <details>
+          <summary>¿Qué conviene llevar?</summary>
+          <p>Ropa cómoda y calzado para caminar por el campo. Un abrigo para la tarde, que en De la Canal refresca. <!-- COMPLETAR --></p>
+        </details>
+        <details>
+          <summary>¿Qué pasa si llueve?</summary>
+          <p>La galería está cerrada, así que el almuerzo y la merienda se hacen igual. <!-- COMPLETAR: confirmar política de lluvia --></p>
+        </details>
+        <details>
+          <summary>¿Cómo es la política de cancelación?</summary>
+          <p>Escribinos por WhatsApp con la mayor anticipación posible si necesitás cambiar o cancelar la fecha. <!-- COMPLETAR: plazos y seña --></p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================== CTA (VERDE) -->
+  <section class="seccion seccion--verde" id="reservar">
+    <div class="contenedor reveal" style="text-align:center; max-width:40rem; margin-inline:auto;">
+      <p class="eyebrow">Cuando quieras</p>
+      <h2>Reservá tu día de campo</h2>
+      <div class="filete filete--corto" style="margin-inline:auto;"></div>
+      <p class="subtitulo" style="margin-bottom:2rem;">
+        Elegí el día y cuántos son. Te confirmamos por WhatsApp.
+      </p>
+      <form class="dc-form" id="dcForm">
+        <label class="dc-campo">
+          <span>Día</span>
+          <input type="date" id="dcFecha" required>
+        </label>
+        <label class="dc-campo dc-campo--angosto">
+          <span>Personas</span>
+          <input type="number" id="dcPersonas" min="1" value="2" required>
+        </label>
+        <button type="submit" class="boton boton--claro">Consultar por WhatsApp</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft-footer">
+  <div class="contenedor ft-grilla">
+    <div>
+      <div class="ft-logo"><img src="logo-claro.svg" alt="San Eusebio" class="logo-img"></div>
+      <p class="ft-lema">El campo, sin apuro.</p>
+    </div>
+    <div class="ft-datos">
+      <p class="ft-titulo">Dónde</p>
+      <p>De la Canal, Tandil — Provincia de Buenos Aires</p>
+    </div>
+    <div class="ft-datos">
+      <p class="ft-titulo">Contacto</p>
+      <p><a id="ftWa" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a></p>
+      <p><a id="ftMail" href="#">hola@saneusebio.com.ar</a></p>
+      <p><a id="ftIg" href="#">@saneusebio.hosteria</a></p>
+    </div>
+  </div>
+  <p class="ft-credito">© <span id="anio">2026</span> San Eusebio. Todos los derechos reservados.</p>
+</footer>
+
+<a class="wa-boton" id="botonWa" href="#" target="_blank" rel="noopener noreferrer" aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.174.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 016.988 2.898 9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.4"/>
+  </svg>
+</a>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+<script>
+(function(){
+  var c = window.SAN_EUSEBIO || {};
+  function set(id, href, text){ var el=document.getElementById(id); if(el){ if(href) el.href=href; if(text) el.textContent=text; } }
+  document.addEventListener('DOMContentLoaded', function(){
+    if(c.whatsapp) set('ftWa','https://wa.me/'+c.whatsapp,'WhatsApp');
+    if(c.email) set('ftMail','mailto:'+c.email, c.email);
+    if(c.instagram) set('ftIg','https://instagram.com/'+c.instagram,'@'+c.instagram);
+    var precio = c.diaDeCampoPrecio;
+    if(precio){ var el=document.getElementById('dcPrecio'); if(el) el.textContent=precio; }
+    if(c.whatsapp){
+      var base = 'https://wa.me/'+c.whatsapp+'?text=';
+      set('ctaDcHero', base+encodeURIComponent('Hola! Quiero consultar por el Día de Campo en San Eusebio.'));
+      var hero=document.getElementById('ctaDcHero'); if(hero){ hero.target='_blank'; hero.rel='noopener noreferrer'; }
+      var f=document.getElementById('dcForm');
+      if(f) f.addEventListener('submit', function(e){
+        e.preventDefault();
+        var d=document.getElementById('dcFecha').value, n=document.getElementById('dcPersonas').value;
+        var dia = d ? d.split('-').reverse().join('/') : '__';
+        var m='Hola! Quiero consultar por el Día de Campo en San Eusebio. Somos '+(n||'__')+' personas, para el día '+dia+'.';
+        window.open(base+encodeURIComponent(m), '_blank', 'noopener');
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

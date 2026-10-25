@@ -49,7 +49,15 @@
     'coaching_hero_foto':   'coaching-hero.jpg',
     'coaching_foto_yegua':  'coaching-yegua.jpg',
     'coaching_foto_sesion': 'coaching-sesion.jpg',
-    'coaching_foto_grupo':  'coaching-grupo.jpg'
+    'coaching_foto_grupo':  'coaching-grupo.jpg',
+    'dia_campo_hero':        'dia-de-campo-hero.jpg',
+    'dia_campo_almuerzo':    'dia-de-campo-almuerzo.jpg',
+    'dia_campo_picada':      'dia-de-campo-picada.jpg',
+    'dia_campo_compartir':   'dia-de-campo-compartir.jpg',
+    'dia_campo_merienda':    'dia-de-campo-merienda.jpg',
+    'dia_campo_jardin':      'dia-de-campo-jardin.jpg',
+    'dia_campo_propietaria': 'dia-de-campo-propietaria.jpg',
+    'dia_campo_caballos':    'dia-de-campo-caballos.jpg'
   };
 
   var HERO = {
